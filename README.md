@@ -16,7 +16,7 @@ Hello everyone!. Here is our repository for Bangkit 2024 Capstone project. Our t
 |     Nabil Rizki Navisa       |  A184B4KY3178  |      Mobile Development     |
 
 ## What is this project
-We make a mobile application named **APLOD** (Aman Pesannya Let’s gO uploaD). **APLOD** is a hate speech comment detector application integrated with ITE Law. With this application, everyone can check whether a sentence contains harmful words that can violate ITE Law before uploading it to social media. We want to reduce hate comments made by Indonesian people on social media platforms such as Twitter, Instagram, etc. Hate comments not only can hurt someone but also can lead to ITE Law violation.
+We make a mobile application named **Outfyt**. **Outfyt** Our project developed an intelligent mobile app that simplifies everyday clothing decisions by recommending outfits based on contextual factors such as schedule, time of day, season, and personal color, thereby reducing decision confusion and increasing confidence in style choices.
 
 ## Tech Stacks
 
