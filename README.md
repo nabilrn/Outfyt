@@ -1,4 +1,4 @@
-![LogoFix1](https://github.com/user-attachments/assets/0a51bd7e-7307-4283-9f63-a8eb5c66b2d6)
+![LogoFix2](https://github.com/user-attachments/assets/c5ea579b-e51a-43a6-bbae-e94c2136152b)
 
 # Bangkit 2024 Capstone Team : Outfyt's Team (C242-PS352)
 
