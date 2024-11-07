@@ -1,3 +1,5 @@
+![LogoFix1](https://github.com/user-attachments/assets/0a51bd7e-7307-4283-9f63-a8eb5c66b2d6)
+
 # Bangkit 2024 Capstone Team : Outfyt's Team (C242-PS352)
 
 Hello everyone!. Here is our repository for Bangkit 2024 Capstone project. Our team consist of 3 Machine Learning, 2 Mobile Development, and 2 Cloud Computing.
