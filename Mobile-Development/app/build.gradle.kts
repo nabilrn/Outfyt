@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp") version "2.0.21-1.0.25"
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    id("androidx.navigation.safeargs.kotlin")  // Pastikan ini setelah android plugin
 }
 
 android {
@@ -56,6 +59,15 @@ dependencies {
     implementation (libs.logging.interceptor)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+    kapt(libs.hilt.android.compiler)
+
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.auth)
+
+    implementation(libs.hilt.android)
+
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.ktx)
