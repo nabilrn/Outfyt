@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Outfyt</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="Account">Account</string>
+    <string name="title_account">Account\n</string>
+    <string name="title_schedule">Schedule\n</string>
+    <string name="title_news">News\n</string>
+</resources>
