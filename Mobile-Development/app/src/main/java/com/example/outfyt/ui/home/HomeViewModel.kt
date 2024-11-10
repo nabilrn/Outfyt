@@ -17,10 +17,17 @@ class HomeViewModel : ViewModel() {
     }
     val text: LiveData<String> = _text
 
+    private val _displayName = MutableLiveData<String?>()
+    val displayName: LiveData<String?> = _displayName
+
     private val _logoutSuccess = MutableLiveData<Boolean>()
     val logoutSuccess: LiveData<Boolean> = _logoutSuccess
 
-     fun logout(context: Context) {
+    fun setDisplayName(name: String?) {
+        _displayName.value = name
+    }
+
+    fun logout(context: Context) {
         val currentRefreshToken = LoginPreferences.getRefreshToken(context)
 
         if (currentRefreshToken != null) {
