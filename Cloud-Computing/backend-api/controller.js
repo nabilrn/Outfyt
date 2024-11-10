@@ -1,7 +1,6 @@
 const { google } = require("googleapis");
-
-require('dotenv').config({ path: '../../.env' });
-
+const { User } = require("./models/index.js");
+require("dotenv").config({ path: "../../.env" });
 
 const auth = async (req, res) => {
   const { idToken, authCode } = req.body;
@@ -10,18 +9,15 @@ const auth = async (req, res) => {
   console.log("Received authCode: ", authCode);
 
   try {
-    // Tukarkan authCode dengan access token menggunakan OAuth2
+    // Setup OAuth2 client
     const client = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
       process.env.REDIRECT_URI
     );
 
-    const { tokens } = await client.getToken(authCode); // Tukarkan authCode dengan access token
-
-    client.getToken(authCode).catch((error) => {
-      console.log("Error exchanging auth code for tokens:", error);
-    });
+    // Dapatkan tokens dari authCode
+    const { tokens } = await client.getToken(authCode);
 
     // Verifikasi ID token
     const ticket = await client.verifyIdToken({
@@ -30,20 +26,67 @@ const auth = async (req, res) => {
     });
 
     const payload = ticket.getPayload();
+    const googleId = payload["sub"];
 
-    // Kirim response ke Android dengan informasi pengguna
-    res.json({
-      success: true,
-      user: {
-        googleId: payload["sub"],
-        displayName: payload["name"],
-        email: payload["email"],
-        photoUrl: payload["picture"],
-      },
-      accessToken: tokens.access_token, // Kirim accessToken yang didapat dari authCode
-      refreshToken: tokens.refresh_token, // Kirim refreshToken yang didapat dari authCode
-    });
+    try {
+      // Cek apakah user sudah ada di database
+      let user = await User.findByPk(googleId);
 
+      if (user) {
+        // User sudah ada, update data
+        const updateData = {
+          displayName: payload["name"],
+          email: payload["email"],
+          photoUrl: payload["picture"],
+        };
+
+        // Jika dapat refresh token baru, update di database
+        if (tokens.refresh_token) {
+          updateData.refreshTokenOauth = tokens.refresh_token;
+        }
+
+        await user.update(updateData);
+      } else {
+        // User belum ada, buat user baru
+        user = await User.create({
+          googleId: googleId,
+          displayName: payload["name"],
+          email: payload["email"],
+          photoUrl: payload["picture"],
+          refreshTokenOauth: tokens.refresh_token || null,
+        });
+      }
+
+      // Siapkan response tokens
+      let responseTokens = {
+        access_token: tokens.access_token,
+        refresh_token: tokens.refresh_token,
+      };
+
+      // Jika tidak dapat refresh token baru, gunakan yang ada di database
+      if (!tokens.refresh_token && user.refreshTokenOauth) {
+        responseTokens.refresh_token = user.refreshTokenOauth;
+      }
+
+      // Kirim response ke client
+      res.json({
+        success: true,
+        user: {
+          googleId: user.googleId,
+          displayName: user.displayName,
+          email: user.email,
+          photoUrl: user.photoUrl,
+        },
+        accessToken: responseTokens.access_token,
+        refreshToken: responseTokens.refresh_token,
+      });
+    } catch (dbError) {
+      console.error("Database error:", dbError);
+      res.status(500).json({
+        success: false,
+        error: "Gagal menyimpan data user",
+      });
+    }
   } catch (error) {
     console.error("Error dalam autentikasi:", error);
     res.status(401).json({
@@ -52,6 +95,7 @@ const auth = async (req, res) => {
     });
   }
 };
+
 const getCalendar = async (req, res) => {
   const { accessToken, refreshToken } = req.headers;
 
@@ -124,10 +168,9 @@ const getCalendar = async (req, res) => {
       });
     }
   }
-}
-  
-module.exports ={
-    auth,
-    getCalendar,
+};
 
-}
+module.exports = {
+  auth,
+  getCalendar,
+};

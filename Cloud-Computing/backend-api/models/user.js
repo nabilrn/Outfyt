@@ -19,8 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     photoUrl: DataTypes.STRING,
     refreshTokenJwt: DataTypes.STRING,
-    accessTokenGoogle: DataTypes.STRING,
-    refreshTokenGoogle: DataTypes.STRING
+    refreshTokenOauth: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',
