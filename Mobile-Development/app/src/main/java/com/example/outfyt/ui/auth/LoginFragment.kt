@@ -70,9 +70,12 @@ class LoginFragment : Fragment() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
+            .requestServerAuthCode(getString(R.string.web_client_id))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+
+        GoogleSignIn.getClient(requireActivity(), gso).signOut()
 
         binding.signInButton.setOnClickListener {
             signIn()
@@ -81,7 +84,7 @@ class LoginFragment : Fragment() {
         viewModel.authResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response?.success == true) {
                 lifecycleScope.launch {
-                    LoginPreferences.saveLoginState(requireContext(), true, response.user?.displayName)
+                    LoginPreferences.saveLoginState(requireContext(), true, response.user?.displayName, response.refreshToken)
                     Log.d("SharedPref", "Login state saved")
                 }
                 val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(response.user?.displayName ?: "")
@@ -90,7 +93,7 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), "Authentication successful", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "Authentication failed", Toast.LENGTH_SHORT).show()
-                Log.e("LoginFragment", "Authentication failed")
+                Log.e("LoginFragment", "Authentication failed, Response: ${response?.message}")
             }
         })
     }

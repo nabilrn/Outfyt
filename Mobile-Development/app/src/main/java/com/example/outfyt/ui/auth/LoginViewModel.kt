@@ -23,8 +23,10 @@ class LoginViewModel : ViewModel() {
         try {
             val account = task.getResult(ApiException::class.java)
             val idToken = account?.idToken
-            if (idToken != null) {
-                sendTokenToServer(idToken)
+            val authCode = account?.serverAuthCode
+            Log.d("TOKEN", "Sending idToken: $idToken and authCode: $authCode to the server")
+            if (idToken != null && authCode != null) {
+                sendTokenToServer(idToken, authCode)
             } else {
                 _authResponse.value = null
             }
@@ -34,8 +36,8 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    private fun sendTokenToServer(idToken: String) {
-        val request = AuthRequest(idToken)
+    private fun sendTokenToServer(idToken: String, authCode: String) {
+        val request = AuthRequest(idToken, authCode)
         val call = ApiConfig.api.authenticate(request)
 
         call.enqueue(object : Callback<AuthResponse> {
@@ -56,3 +58,4 @@ class LoginViewModel : ViewModel() {
         })
     }
 }
+

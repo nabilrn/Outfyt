@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.outfyt.databinding.FragmentHomeBinding
@@ -27,6 +28,12 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         binding.tvWelcome.text = "Welcome, ${args.displayName}!"
+
+        homeViewModel.logoutSuccess.observe(viewLifecycleOwner, Observer { isLoggedOut ->
+            if (isLoggedOut) {
+                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+            }
+        })
 
         binding.btnLogout.setOnClickListener {
             logout()
@@ -53,6 +60,5 @@ class HomeFragment : Fragment() {
 
     private fun logout() {
         homeViewModel.logout(requireContext())
-        findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
     }
 }
