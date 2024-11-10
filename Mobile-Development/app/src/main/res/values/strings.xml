@@ -8,7 +8,7 @@
     <string name="title_schedule">Schedule\n</string>
     <string name="title_news">News\n</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-<!--    <string name="web_client_id">765118576725-lfugdf5ek3fnnnddncaln1nr6sq8co9i.apps.googleusercontent.com</string>-->
+    <!--    <string name="web_client_id">765118576725-lfugdf5ek3fnnnddncaln1nr6sq8co9i.apps.googleusercontent.com</string>-->
     <string name="web_client_id">221353377284-k4ddfug3ls7p2efr9lv0mv7cheemtg2p.apps.googleusercontent.com</string>
     <string name="logout">Logout</string>
     <string name="login">Login</string>

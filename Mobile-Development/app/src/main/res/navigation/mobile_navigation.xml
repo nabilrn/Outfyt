@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_login">
+    app:startDestination="@+id/navigation_splash">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -15,7 +15,8 @@
             app:destination="@id/navigation_login" />
         <argument
             android:name="displayName"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="Guest" />
     </fragment>
 
     <fragment
@@ -39,10 +40,31 @@
     <fragment
         android:id="@+id/navigation_login"
         android:name="com.example.outfyt.ui.auth.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/navigation_home" />
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_login"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_splash"
+        android:name="com.example.outfyt.ui.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/navigation_login"
+            app:enterAnim="@anim/fade_in"
+            app:popUpTo="@id/navigation_splash"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_splash"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>
