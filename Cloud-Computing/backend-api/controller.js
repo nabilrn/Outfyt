@@ -1,6 +1,7 @@
 const { google } = require("googleapis");
 const { User } = require("./models/index.js");
 require("dotenv").config({ path: "../../.env" });
+// require("dotenv").config();
 
 const auth = async (req, res) => {
   const { idToken, authCode } = req.body;
@@ -18,6 +19,8 @@ const auth = async (req, res) => {
 
     // Dapatkan tokens dari authCode
     const { tokens } = await client.getToken(authCode);
+
+    console.log("Received tokens: ", tokens);
 
     // Verifikasi ID token
     const ticket = await client.verifyIdToken({
@@ -68,6 +71,12 @@ const auth = async (req, res) => {
         responseTokens.refresh_token = user.refreshTokenOauth;
       }
 
+      console.log(
+        "Response  tokens setelah cek db: ",
+        responseTokens.refresh_token
+      );
+      console.log("Response  tokens asli: ", tokens.refresh_token);
+
       // Kirim response ke client
       res.json({
         success: true,
@@ -97,7 +106,16 @@ const auth = async (req, res) => {
 };
 
 const getCalendar = async (req, res) => {
-  const { accessToken, refreshToken } = req.headers;
+  console.log("Header", req.headers);
+  const accessToken = req.headers["accesstoken"]; // Periksa akses ke header 'accesstoken'
+  const refreshToken = req.headers["refreshtoken"]; // Periksa akses ke header 'refreshtoken'
+
+  if (!accessToken || !refreshToken) {
+    return res.status(400).json({
+      success: false,
+      error: "Access token atau refresh token tidak ditemukan di header",
+    });
+  }
 
   try {
     // Buat OAuth2 client dengan accessToken dan refreshToken
