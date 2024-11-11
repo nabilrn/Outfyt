@@ -4,39 +4,43 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.outfyt.databinding.FragmentScheduleBinding
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.outfyt.R
 
 class ScheduleFragment : Fragment() {
 
-    private var _binding: FragmentScheduleBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var calendarAdapter: CalendarAdapter
+    private val scheduleViewModel: ScheduleViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val scheduleViewModel =
-            ViewModelProvider(this)[ScheduleViewModel::class.java]
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_schedule, container, false)
+        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        _binding = FragmentScheduleBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        scheduleViewModel.events.observe(viewLifecycleOwner, Observer { events ->
+            if (events != null) {
+                calendarAdapter = CalendarAdapter(events)
+                recyclerView.adapter = calendarAdapter
+            }
+        })
 
-        val textView: TextView = binding.textDashboard
-        scheduleViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
-    }
+        scheduleViewModel.errorMessage.observe(viewLifecycleOwner, Observer { error ->
+            if (error != null) {
+                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+            }
+        })
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        scheduleViewModel.fetchCalendarData()
+
+        return view
     }
 }

@@ -20,6 +20,7 @@ import com.example.outfyt.databinding.FragmentLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.Scope
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
@@ -71,6 +72,7 @@ class LoginFragment : Fragment() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
             .requestServerAuthCode(getString(R.string.web_client_id))
+            .requestScopes(Scope("https://www.googleapis.com/auth/calendar"))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
@@ -84,7 +86,7 @@ class LoginFragment : Fragment() {
         viewModel.authResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response?.success == true) {
                 lifecycleScope.launch {
-                    LoginPreferences.saveLoginState(requireContext(), true, response.user?.displayName, response.refreshToken)
+                    LoginPreferences.saveLoginState(requireContext(), true, response.user?.displayName, response.accessToken, response.refreshToken)
                     Log.d("SharedPref", "Login state saved")
                 }
                 val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(response.user?.displayName ?: "")
