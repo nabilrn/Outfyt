@@ -21,6 +21,5 @@ interface ApiService {
 
     @GET("/calendar")
     suspend fun getCalendar(
-        @Header("accessToken") accessToken: String,
-        @Header("refreshToken") refreshToken: String): Response<CalendarResponse>
+        @Header("Authorization") accessToken: String): Response<CalendarResponse>
 }

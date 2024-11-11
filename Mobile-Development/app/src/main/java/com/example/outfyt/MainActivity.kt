@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            // Consider showing a user-friendly error message
         }
     }
 

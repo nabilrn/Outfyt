@@ -12,12 +12,6 @@ import com.example.outfyt.data.remote.retrofit.ApiConfig
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
-
     private val _displayName = MutableLiveData<String?>()
     val displayName: LiveData<String?> = _displayName
 
@@ -29,10 +23,10 @@ class HomeViewModel : ViewModel() {
     }
 
     fun logout(context: Context) {
-        val currentRefreshToken = LoginPreferences.getRefreshToken(context)
+        val currentAccessToken = LoginPreferences.getAccessToken(context)
 
-        if (currentRefreshToken == null) {
-            val logoutRequest = LogoutRequest(currentRefreshToken.toString())
+        if (currentAccessToken == null) {
+            val logoutRequest = LogoutRequest(currentAccessToken.toString())
             val apiService = ApiConfig.api
 
             viewModelScope.launch {
@@ -40,7 +34,7 @@ class HomeViewModel : ViewModel() {
                     val response = apiService.logout(logoutRequest)
 
                     if (response.isSuccessful && response.body()?.success == true) {
-                        LoginPreferences.saveLoginState(context, false, null, null, null)
+                        LoginPreferences.saveLoginState(context, false, null, null)
                         _logoutSuccess.postValue(true)
                     } else {
                         _logoutSuccess.postValue(false)
@@ -51,7 +45,7 @@ class HomeViewModel : ViewModel() {
                 }
             }
         } else {
-            LoginPreferences.saveLoginState(context, false, null, null, null)
+            LoginPreferences.saveLoginState(context, false, null, null)
             _logoutSuccess.postValue(true)
         }
     }
