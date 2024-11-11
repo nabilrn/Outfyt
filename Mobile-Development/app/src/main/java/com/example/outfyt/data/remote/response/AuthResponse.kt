@@ -1,10 +1,12 @@
 package com.example.outfyt.data.remote.response
 
-data class AuthRequest(val idToken: String)
+data class AuthRequest(val idToken: String, val authCode: String)
 
 data class AuthResponse(
     val success: Boolean,
-    val user: UserInfo?
+    val user: UserInfo?,
+    val refreshToken: String?,
+    val message: String?
 )
 
 data class UserInfo(
@@ -13,3 +15,7 @@ data class UserInfo(
     val email: String,
     val photoUrl: String
 )
+
+data class LogoutRequest(val refreshToken: String)
+
+data class LogoutResponse(val success: Boolean, val message: String)
