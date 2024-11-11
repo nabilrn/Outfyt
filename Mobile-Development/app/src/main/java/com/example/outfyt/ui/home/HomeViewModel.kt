@@ -1,6 +1,7 @@
 package com.example.outfyt.ui.home
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,8 +31,8 @@ class HomeViewModel : ViewModel() {
     fun logout(context: Context) {
         val currentRefreshToken = LoginPreferences.getRefreshToken(context)
 
-        if (currentRefreshToken != null) {
-            val logoutRequest = LogoutRequest(currentRefreshToken)
+        if (currentRefreshToken == null) {
+            val logoutRequest = LogoutRequest(currentRefreshToken.toString())
             val apiService = ApiConfig.api
 
             viewModelScope.launch {
@@ -39,17 +40,18 @@ class HomeViewModel : ViewModel() {
                     val response = apiService.logout(logoutRequest)
 
                     if (response.isSuccessful && response.body()?.success == true) {
-                        LoginPreferences.saveLoginState(context, false, null, null)
+                        LoginPreferences.saveLoginState(context, false, null, null, null)
                         _logoutSuccess.postValue(true)
                     } else {
                         _logoutSuccess.postValue(false)
+                        Log.e("LogoutViewModel", "Logout failed: ${response.message()}")
                     }
                 } catch (_: Exception) {
                     _logoutSuccess.postValue(false)
                 }
             }
         } else {
-            LoginPreferences.saveLoginState(context, false, null, null)
+            LoginPreferences.saveLoginState(context, false, null, null, null)
             _logoutSuccess.postValue(true)
         }
     }

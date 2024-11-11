@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
             val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-            // Setup navigation with null checks
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
                     R.id.navigation_login, R.id.navigation_splash -> hideBottomNavigationAndTopAppBar()
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            // Setup bottom navigation only if it exists
             binding.navView.let { bottomNav ->
                 val appBarConfiguration = AppBarConfiguration(
                     setOf(

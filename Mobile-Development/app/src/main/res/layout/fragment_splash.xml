@@ -17,7 +17,7 @@
         android:id="@+id/view_curve_top"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginBottom="156dp"
+        android:layout_marginBottom="164dp"
         android:background="@drawable/bg_curve_top_navy"
         app:layout_constraintBottom_toTopOf="@+id/iv_logo"
         tools:layout_editor_absoluteX="0dp" />
