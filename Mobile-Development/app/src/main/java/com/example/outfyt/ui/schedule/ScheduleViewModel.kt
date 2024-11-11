@@ -1,6 +1,7 @@
 package com.example.outfyt.ui.schedule
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -21,11 +22,12 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
             try {
                 val context = getApplication<Application>().applicationContext
                 val accessToken = LoginPreferences.getAccessToken(context) ?: ""
-                val refreshToken = LoginPreferences.getRefreshToken(context) ?: ""
 
                 val response: Response<CalendarResponse> = ApiConfig.api.getCalendar(
-                    accessToken, refreshToken
+                    "Bearer $accessToken"
                 )
+
+                Log.d("ScheduleViewModel", "Response: $response")
 
                 if (response.isSuccessful && response.body() != null) {
                     events.value = response.body()!!.events
