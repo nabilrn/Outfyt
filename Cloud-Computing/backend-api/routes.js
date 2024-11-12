@@ -1,15 +1,9 @@
-// routes/userRoutes.js
 const express = require('express');
-const {auth, getCalendar} = require('./controller.js')
+const { auth, getCalendar } = require('./controller.js');
+const { verifyGoogleToken } = require('./auth.js');
 const router = express.Router();
 
-
-router.post('/auth/google/android', auth );
-router.get('/calendar',  getCalendar);
-// router.post('/logout', verifyToken, logout);
-
-
-
-
+router.post('/auth/google/android', auth);
+router.get('/calendar', verifyGoogleToken, getCalendar);
 
 module.exports = router;
