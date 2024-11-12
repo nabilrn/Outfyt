@@ -17,9 +17,6 @@ module.exports = {
       photoUrl: {
         type: Sequelize.STRING
       },
-      refreshTokenJwt: {
-        type: Sequelize.STRING
-      },
       refreshTokenOauth: {
         type: Sequelize.STRING
       },
