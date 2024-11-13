@@ -5,6 +5,7 @@ data class AuthRequest(val idToken: String, val authCode: String)
 data class AuthResponse(
     val success: Boolean,
     val user: UserInfo?,
+    val accessToken: String?,
     val refreshToken: String?,
     val message: String?
 )

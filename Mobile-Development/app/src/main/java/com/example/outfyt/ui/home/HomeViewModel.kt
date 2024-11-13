@@ -1,6 +1,7 @@
 package com.example.outfyt.ui.home
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,12 +12,6 @@ import com.example.outfyt.data.remote.retrofit.ApiConfig
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
-
     private val _displayName = MutableLiveData<String?>()
     val displayName: LiveData<String?> = _displayName
 
@@ -28,10 +23,10 @@ class HomeViewModel : ViewModel() {
     }
 
     fun logout(context: Context) {
-        val currentRefreshToken = LoginPreferences.getRefreshToken(context)
+        val currentAccessToken = LoginPreferences.getAccessToken(context)
 
-        if (currentRefreshToken != null) {
-            val logoutRequest = LogoutRequest(currentRefreshToken)
+        if (currentAccessToken == null) {
+            val logoutRequest = LogoutRequest(currentAccessToken.toString())
             val apiService = ApiConfig.api
 
             viewModelScope.launch {
@@ -43,6 +38,7 @@ class HomeViewModel : ViewModel() {
                         _logoutSuccess.postValue(true)
                     } else {
                         _logoutSuccess.postValue(false)
+                        Log.e("LogoutViewModel", "Logout failed: ${response.message()}")
                     }
                 } catch (_: Exception) {
                     _logoutSuccess.postValue(false)
