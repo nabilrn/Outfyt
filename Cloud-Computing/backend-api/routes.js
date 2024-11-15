@@ -1,19 +1,23 @@
 const express = require('express');
-const { auth, getCalendar, uploadImage } = require('./controller.js');
+const { auth, getCalendar, uploadImage, scrapeNews } = require('./controller.js');
+const {start, send, stream} = require('./controller/chat.js')
 const { verifyGoogleToken } = require('./auth.js');
 const multer = require('multer');
-// const path = require('path');
 const router = express.Router();
 
 
 
 const upload = multer({
-    storage: multer.memoryStorage(), // simpan di memori sementara sebelum di-upload ke Cloud
+    storage: multer.memoryStorage(), 
   });
   
-router.post('/auth/google/android', auth);
+router.post('/auth', auth);
 router.get('/calendar', verifyGoogleToken, getCalendar);
 router.post('/upload-image',  verifyGoogleToken, upload.single('image'), uploadImage);
+router.get('/news', scrapeNews);
 
+router.post('/chat/start', start  );
+router.post('/chat/send', send  );
+router.post('/chat/stream', stream  );
 
 module.exports = router;

@@ -5,7 +5,7 @@ const port = 3000;
 const routes = require('./routes.js');
 
 app.use(express.json());
-app.use('/', routes);
+app.use('/api', routes);
 
 app.listen(port, () => {
   console.log(`Server berjalan di http://localhost:${port}`);
