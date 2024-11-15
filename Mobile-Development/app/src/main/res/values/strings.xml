@@ -12,4 +12,9 @@
     <string name="web_client_id">221353377284-k4ddfug3ls7p2efr9lv0mv7cheemtg2p.apps.googleusercontent.com</string>
     <string name="logout">Logout</string>
     <string name="login">Login</string>
+    <string name="welcome_page">Welcome to Outfyt, let\'s start your journey with us to make your outfit awesome!</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="hello">Hello!</string>
+    <string name="logo">Logo</string>
+    <string name="background">Background</string>
 </resources>
