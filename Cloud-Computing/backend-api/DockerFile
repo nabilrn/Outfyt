@@ -1,4 +1,3 @@
-# Gunakan base image Node.js
 FROM node:21.6.2
 
 # Set working directory
