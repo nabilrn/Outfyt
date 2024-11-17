@@ -2,7 +2,7 @@
 FROM node:21.6.2
 
 # Atur direktori kerja
-WORKDIR /
+WORKDIR /app
 
 # Salin file yang dibutuhkan
 COPY package*.json ./
@@ -12,7 +12,7 @@ COPY . .
 RUN npm install
 
 # Ekspos port yang akan digunakan
-EXPOSE 8080
+EXPOSE 3000
 
 # Jalankan aplikasi
 CMD ["npm", "start"]
