@@ -1,11 +1,11 @@
 package com.example.outfyt.data.remote.retrofit
 
+import com.example.outfyt.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
-    private const val BASE_URL = "http://10.0.2.2:3000/" // Gunakan 10.0.2.2 untuk localhost di
-    // emulator Android
+    private const val BASE_URL = BuildConfig.BASE_URL
 
     val api: ApiService by lazy {
         Retrofit.Builder()

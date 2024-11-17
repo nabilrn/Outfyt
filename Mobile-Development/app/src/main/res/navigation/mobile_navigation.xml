@@ -9,15 +9,7 @@
         android:id="@+id/navigation_home"
         android:name="com.example.outfyt.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_loginFragment"
-            app:destination="@id/navigation_login" />
-        <argument
-            android:name="displayName"
-            app:argType="string"
-            android:defaultValue="Guest" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -35,7 +27,13 @@
         android:id="@+id/navigation_account"
         android:name="com.example.outfyt.ui.account.AccountFragment"
         android:label="@string/title_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_loginFragment"
+            app:destination="@id/navigation_login"
+            app:popUpTo="@id/navigation_login"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_login"

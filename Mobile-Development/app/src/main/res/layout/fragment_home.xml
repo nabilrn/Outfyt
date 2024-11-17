@@ -6,16 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/title_home"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="259dp"
+        android:layout_height="265dp"
+        android:layout_marginTop="52dp"
+        android:contentDescription="@string/foto"
+        android:src="@drawable/ic_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_upload"
+        android:layout_width="233dp"
+        android:layout_height="51dp"
+        android:text="@string/upload_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_gallery"
+        app:layout_constraintVertical_bias="0.118" />
+
+    <Button
+        android:id="@+id/btn_camera"
+        android:layout_width="125dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="68dp"
+        android:text="@string/take_picture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_image" />
+
+    <Button
+        android:id="@+id/btn_gallery"
+        android:layout_width="128dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="68dp"
+        android:text="@string/choose_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/btn_camera"
+        app:layout_constraintTop_toBottomOf="@+id/iv_image" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

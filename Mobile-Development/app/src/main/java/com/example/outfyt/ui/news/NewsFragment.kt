@@ -4,39 +4,48 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.outfyt.R
 import com.example.outfyt.databinding.FragmentNewsBinding
+import kotlin.getValue
 
 class NewsFragment : Fragment() {
 
-    private var _binding: FragmentNewsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentNewsBinding
+    private lateinit var newsAdapter: NewsAdapter
+    private lateinit var recyclerView: RecyclerView
+    private val newsViewModel: NewsViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val newsViewModel =
-            ViewModelProvider(this)[NewsViewModel::class.java]
+    ): View? {
+        binding = FragmentNewsBinding.inflate(inflater, container, false)
 
-        _binding = FragmentNewsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        recyclerView = binding.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        newsAdapter = NewsAdapter(mutableListOf())
 
-        val textView: TextView = binding.textNotifications
-        newsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
-    }
+        newsViewModel.news.observe(viewLifecycleOwner, Observer { newsList ->
+            binding.progressBar.visibility = View.GONE
+            if (newsList.isNotEmpty()) {
+                newsAdapter.updateNewsList(newsList)
+                recyclerView.adapter = newsAdapter
+            } else {
+                binding.tvNews.text = getString(R.string.noNews)
+            }
+        })
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        newsViewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
+            binding.tvNews.text = errorMessage
+        })
+
+        newsViewModel.fetchNewsData()
+
+        return binding.root
     }
 }

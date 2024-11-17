@@ -10,10 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.outfyt.R
+import com.example.outfyt.databinding.FragmentScheduleBinding
 
 class ScheduleFragment : Fragment() {
 
+    private lateinit var binding: FragmentScheduleBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var calendarAdapter: CalendarAdapter
     private val scheduleViewModel: ScheduleViewModel by viewModels()
@@ -22,14 +23,18 @@ class ScheduleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_schedule, container, false)
-        recyclerView = view.findViewById(R.id.recyclerView)
+        binding = FragmentScheduleBinding.inflate(inflater, container, false)
+
+        recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         scheduleViewModel.events.observe(viewLifecycleOwner, Observer { events ->
+            binding.progressBar.visibility = View.GONE
             if (events != null) {
                 calendarAdapter = CalendarAdapter(events)
                 recyclerView.adapter = calendarAdapter
+            } else {
+                Toast.makeText(requireContext(), "No events found", Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -41,6 +46,6 @@ class ScheduleFragment : Fragment() {
 
         scheduleViewModel.fetchCalendarData()
 
-        return view
+        return binding.root
     }
 }

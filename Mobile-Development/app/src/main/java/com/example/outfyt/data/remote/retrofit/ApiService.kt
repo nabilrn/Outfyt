@@ -5,21 +5,39 @@ import com.example.outfyt.data.remote.response.AuthResponse
 import com.example.outfyt.data.remote.response.CalendarResponse
 import com.example.outfyt.data.remote.response.LogoutRequest
 import com.example.outfyt.data.remote.response.LogoutResponse
+import com.example.outfyt.data.remote.response.NewsResponse
+import com.example.outfyt.data.remote.response.UploadResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 
 interface ApiService {
-    @POST("auth/google/android")
+    @POST("api/auth")
     fun authenticate(@Body request: AuthRequest): Call<AuthResponse>
 
-    @POST("/auth/logout")
+    @POST("api/auth/logout")
     suspend fun logout(@Body request: LogoutRequest): Response<LogoutResponse>
 
-    @GET("/calendar")
+    @GET("api/calendar")
     suspend fun getCalendar(
         @Header("Authorization") accessToken: String): Response<CalendarResponse>
+
+    @Multipart
+    @POST("api/upload-image")
+    suspend fun uploadImage(
+        @Header("Authorization") accessToken: String,
+        @Part image: MultipartBody.Part
+    ): Response<UploadResponse>
+
+    @GET("api/news")
+    suspend fun getNews(
+        @Header("Authorization") accessToken: String): Response<NewsResponse>
+
+
 }
