@@ -22,11 +22,7 @@ jobs:
       with:
         credentials_json: '${{ secrets.GCLOUD_SERVICE_KEY }}'
 
-    # - name: Google Auth
-    #   uses: 'google-github-actions/auth@v1'
-    #   with:
-    #     workload_identity_provider: '${{ vars.WIF_PROVIDER }}'
-    #     service_account: '${{ vars.WIF_SERVICE_ACCOUNT }}'
+
 
     - name: Set up Cloud SDK
       uses: 'google-github-actions/setup-gcloud@v1'
@@ -36,7 +32,7 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        IMAGE_NAME="gcr.io/${{ vars.PROJECT_ID }}/cc-service"
+        IMAGE_NAME="gcr.io/${{ secrets.GCLOUD_PROJECT_ID}}/cc-service"
         cd Cloud-Computing/backend-api
         docker build -t $IMAGE_NAME .
         docker push $IMAGE_NAME
@@ -44,7 +40,7 @@ jobs:
     - name: Deploy to Cloud Run
       run: |
         gcloud run deploy cc-service \
-          --image=gcr.io/${{ vars.PROJECT_ID }}/cc-service \
-          --region=${{ vars.REGION }} \
+          --image=gcr.io/${{ secrets.GCLOUD_PROJECT_ID}}/cc-service \
+          --region=${{ secrets.GCLOUD_REGION }} \
           --platform=managed \
           --allow-unauthenticated
