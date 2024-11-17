@@ -20,8 +20,13 @@ jobs:
     - name: Google Auth
       uses: 'google-github-actions/auth@v1'
       with:
-        workload_identity_provider: '${{ vars.WIF_PROVIDER }}'
-        service_account: '${{ vars.WIF_SERVICE_ACCOUNT }}'
+        credentials_json: '${{ secrets.GCLOUD_SERVICE_KEY }}'
+
+    # - name: Google Auth
+    #   uses: 'google-github-actions/auth@v1'
+    #   with:
+    #     workload_identity_provider: '${{ vars.WIF_PROVIDER }}'
+    #     service_account: '${{ vars.WIF_SERVICE_ACCOUNT }}'
 
     - name: Set up Cloud SDK
       uses: 'google-github-actions/setup-gcloud@v1'
