@@ -30,7 +30,7 @@ class AccountFragment : Fragment() {
 
         accountViewModel.logoutSuccess.observe(viewLifecycleOwner, Observer { isLoggedOut ->
             if (isLoggedOut) {
-                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+                findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
             }
         })
 

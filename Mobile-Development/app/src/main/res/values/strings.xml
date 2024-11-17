@@ -2,7 +2,7 @@
     <string name="app_name">Outfyt</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">News</string>
     <string name="Account">Account</string>
     <string name="title_account">Account\n</string>
     <string name="title_schedule">Schedule\n</string>
@@ -17,4 +17,13 @@
     <string name="hello">Hello!</string>
     <string name="logo">Logo</string>
     <string name="background">Background</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="foto">Foto</string>
+    <string name="title">Title</string>
+    <string name="author">Author</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="news">News</string>
+    <string name="noNews">No News Available</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="choose_image">Choose Image</string>
 </resources>

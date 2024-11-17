@@ -62,8 +62,7 @@ class LoginFragment : Fragment() {
         lifecycleScope.launch {
             LoginPreferences.isLoggedIn(requireContext()).collect { isLoggedIn ->
                 if (isLoggedIn) {
-                    val displayName = LoginPreferences.getDisplayName(requireContext())
-                    val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(displayName ?: "")
+                    val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                     findNavController().navigate(action)
                 }
             }
@@ -89,7 +88,7 @@ class LoginFragment : Fragment() {
                     LoginPreferences.saveLoginState(requireContext(), true, response.user?.displayName, response.accessToken)
                     Log.d("SharedPref", "Login state saved")
                 }
-                val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(response.user?.displayName ?: "")
+                val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                 findNavController().navigate(action)
                 Log.d("LoginFragment", "Authentication successful")
                 Toast.makeText(requireContext(), "Authentication successful", Toast.LENGTH_SHORT).show()
