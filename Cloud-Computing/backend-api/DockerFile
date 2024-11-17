@@ -1,14 +1,13 @@
 FROM node:21.6.2
 
-# Set working directory
 WORKDIR /server
 
-# Salin file aplikasi
+
 COPY package*.json ./
 COPY . .
 
-# Install dependencies
+
 RUN npm install
 
-# Jalankan aplikasi
+
 CMD ["npm", "start"]
