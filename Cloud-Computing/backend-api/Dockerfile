@@ -2,7 +2,7 @@
 FROM node:21.6.2
 
 # Atur direktori kerja
-WORKDIR /server
+WORKDIR /
 
 # Salin file yang dibutuhkan
 COPY package*.json ./
