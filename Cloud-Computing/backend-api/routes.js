@@ -12,7 +12,7 @@ const upload = multer({
   });
   router.get('/test', async (req, res) => {
     const respon = { 
-      message: "Server running successfully, semoga sukses ayo"
+      message: "Server running successfully, lagi"
     };
     res.json(respon);
   });
