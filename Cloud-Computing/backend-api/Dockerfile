@@ -1,18 +1,24 @@
-# Gunakan Node versi yang dibutuhkan
-FROM node:21.6.2
+FROM node:21.6.2-slim
 
-# Atur direktori kerja
 WORKDIR /app
 
-# Salin file yang dibutuhkan
+# Copy package files
 COPY package*.json ./
-COPY . .
 
-# Instal dependencies
-RUN npm install
+# Install dependencies
+RUN npm ci --only=production
 
-# Ekspos port yang akan digunakan
-EXPOSE 3000
+# Make sure to copy the config directory specifically
+COPY config ./config
+COPY models ./models
+COPY controller ./controller
+COPY migrations ./migrations
+COPY seeders ./seeders
+COPY *.js ./
 
-# Jalankan aplikasi
+# Create user node
+USER node
+
+EXPOSE 8080
+
 CMD ["npm", "start"]
