@@ -17,37 +17,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_upload"
-        android:layout_width="233dp"
-        android:layout_height="51dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:text="@string/upload_image"
         app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Widget.Material3.Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_gallery"
         app:layout_constraintVertical_bias="0.118" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_camera"
-        android:layout_width="125dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="68dp"
         android:text="@string/take_picture"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        style="@style/Widget.Material3.Button"
+        app:icon="@drawable/ic_camera"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_image" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_gallery"
-        android:layout_width="128dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="68dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="68dp"
+        android:layout_marginEnd="20dp"
+        style="@style/Widget.Material3.Button"
         android:text="@string/choose_image"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:icon="@drawable/ic_gallery"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btn_camera"
+
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/iv_image" />
 
     <ProgressBar
@@ -59,5 +75,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="217dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import com.example.outfyt.R
 import com.example.outfyt.data.local.LoginPreferences
 import com.example.outfyt.databinding.FragmentAccountBinding
 
+@Suppress("DEPRECATION")
 class AccountFragment : Fragment() {
 
     private var _binding: FragmentAccountBinding? = null
@@ -25,7 +26,7 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         accountViewModel.displayName.observe(viewLifecycleOwner, Observer { name ->
-            binding.tvWelcome.text = "Welcome, ${name ?: "Guest"}!"
+            binding.tvWelcome.text = getString(R.string.welcome_user, name ?: getString(R.string.welcome_guest))
         })
 
         accountViewModel.logoutSuccess.observe(viewLifecycleOwner, Observer { isLoggedOut ->
@@ -47,7 +48,7 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val displayName = LoginPreferences.getDisplayName(requireContext()) ?: "Guest"
+        val displayName = LoginPreferences.getDisplayName(requireContext()) ?: getString(R.string.welcome_guest)
         accountViewModel.setDisplayName(displayName)
     }
 

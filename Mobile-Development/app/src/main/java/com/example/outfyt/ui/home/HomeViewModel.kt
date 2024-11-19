@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.outfyt.R
 import com.example.outfyt.data.remote.retrofit.ApiConfig
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -31,12 +32,12 @@ class HomeViewModel : ViewModel() {
         try {
             context.contentResolver.openInputStream(imageUri).use { input ->
                 if (input == null || input.available() <= 0) {
-                    _uploadStatus.value = "File gambar tidak valid"
+                    _uploadStatus.value = context.getString(R.string.invalid_image_file)
                     return
                 }
             }
-        } catch (e: Exception) {
-            _uploadStatus.value = "File gambar tidak valid"
+        } catch (_: Exception) {
+            _uploadStatus.value = context.getString(R.string.invalid_image_file)
             return
         }
 
@@ -46,7 +47,7 @@ class HomeViewModel : ViewModel() {
             try {
                 tempFile = createTempFileFromUri(context, imageUri)
                 if (!tempFile.exists() || tempFile.length() == 0L) {
-                    _uploadStatus.value = "File gambar kosong atau tidak valid"
+                    _uploadStatus.value = context.getString(R.string.empty_or_invalid_image_file)
                     return@launch
                 }
 
@@ -60,15 +61,15 @@ class HomeViewModel : ViewModel() {
                 val response = ApiConfig.api.uploadImage(token, imageMultipart)
 
                 if (response.isSuccessful && response.body() != null) {
-                    _uploadStatus.value = "Upload berhasil"
+                    _uploadStatus.value = context.getString(R.string.upload_successful)
                     _imageUrl.value = response.body()?.url
                     _shouldResetImage.value = true
                 } else {
-                    _uploadStatus.value = "Upload gagal: ${response.message()}"
+                    _uploadStatus.value = context.getString(R.string.upload_failed, response.message())
                     Log.e("HomeViewModel", "Upload failed: ${response.message()}")
                 }
             } catch (e: Exception) {
-                _uploadStatus.value = "Error: ${e.message}"
+                _uploadStatus.value = context.getString(R.string.upload_error, e.message)
                 Log.e("HomeViewModel", "Upload error", e)
             } finally {
                 _isLoading.value = false

@@ -9,7 +9,7 @@
     <string name="title_news">News\n</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--    <string name="web_client_id">765118576725-lfugdf5ek3fnnnddncaln1nr6sq8co9i.apps.googleusercontent.com</string>-->
-    <string name="web_client_id">221353377284-k4ddfug3ls7p2efr9lv0mv7cheemtg2p.apps.googleusercontent.com</string>
+    <string name="web_client_id">512770486417-j3u8j2g1pe85u1nf1cutadieaf902gsl.apps.googleusercontent.com</string>
     <string name="logout">Logout</string>
     <string name="login">Login</string>
     <string name="welcome_page">Welcome to Outfyt, let\'s start your journey with us to make your outfit awesome!</string>
@@ -24,6 +24,26 @@
     <string name="synopsis">Synopsis</string>
     <string name="news">News</string>
     <string name="noNews">No News Available</string>
-    <string name="take_picture">Take Picture</string>
-    <string name="choose_image">Choose Image</string>
+    <string name="take_picture">Camera</string>
+    <string name="choose_image">Gallery</string>
+    <string name="welcome_guest">Welcome, Guest!</string>
+    <string name="welcome_user">Welcome, %1$s!</string>
+    <string name="camera_permission_required">Camera permission is required to use the camera</string>
+    <string name="failed_to_start_camera">Failed to start camera</string>
+    <string name="no_news">No News</string>
+    <string name="cannot_open_link">Cannot open the link</string>
+    <string name="login_first">Please login first</string>
+    <string name="insert_image_first">Please insert an image first</string>
+    <string name="invalid_image">Invalid image</string>
+    <string name="failed_to_capture_image">Failed to capture image</string>
+    <string name="upload_successful">Upload successful</string>
+    <string name="invalid_image_file">File gambar tidak valid</string>
+    <string name="empty_or_invalid_image_file">File gambar kosong atau tidak valid</string>
+    <string name="upload_failed">Upload gagal: %1$s</string>
+    <string name="upload_error">Error: %1$s</string>
+    <string name="failed_to_fetch_news_data">Failed to fetch news data</string>
+    <string name="error_fetching_news_data">Error fetching news data: %1$s</string>
+    <string name="no_events_found">No events found</string>
+
+
 </resources>

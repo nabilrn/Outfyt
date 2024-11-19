@@ -1,6 +1,5 @@
 package com.example.outfyt.ui.news
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,7 +9,10 @@ import com.example.outfyt.data.remote.response.DataItem
 import com.example.outfyt.databinding.ItemNewsBinding
 import com.example.outfyt.utils.NewsDiffCallback
 
-class NewsAdapter(private val newsList: MutableList<DataItem>) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter(
+    private val newsList: MutableList<DataItem>,
+    private val onItemClick: (String) -> Unit
+) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     inner class NewsViewHolder(private val binding: ItemNewsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(newsItem: DataItem) {
@@ -18,6 +20,10 @@ class NewsAdapter(private val newsList: MutableList<DataItem>) : RecyclerView.Ad
             binding.tvNewsAuthor.text = newsItem.author ?: "Unknown Author"
             binding.tvNewsSynopsis.text = newsItem.synopsis ?: "No Synopsis"
             Glide.with(binding.root).load(newsItem.imageUrl).into(binding.ivNewsImage)
+
+            itemView.setOnClickListener {
+                newsItem.link?.let { link -> onItemClick(link) }
+            }
         }
     }
 

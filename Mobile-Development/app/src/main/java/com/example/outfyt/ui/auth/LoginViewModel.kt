@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.outfyt.ui.auth
 
 import android.util.Log
@@ -14,6 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("DEPRECATION")
 class LoginViewModel : ViewModel() {
 
     private val _authResponse = MutableLiveData<AuthResponse?>()

@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.activity)
     ksp(libs.androidx.room.compiler)
     kapt(libs.hilt.android.compiler)
 

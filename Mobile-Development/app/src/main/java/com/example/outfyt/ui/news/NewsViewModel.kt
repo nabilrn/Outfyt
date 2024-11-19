@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.outfyt.R
 import com.example.outfyt.data.local.LoginPreferences
 import com.example.outfyt.data.remote.response.DataItem
 import com.example.outfyt.data.remote.response.NewsResponse
@@ -18,9 +19,9 @@ class NewsViewModel(application: Application): AndroidViewModel(application) {
     val errorMessage = MutableLiveData<String>()
 
     fun fetchNewsData() {
+        val context = getApplication<Application>().applicationContext
         viewModelScope.launch {
             try {
-                val context = getApplication<Application>().applicationContext
                 val accessToken = LoginPreferences.getAccessToken(context) ?: ""
 
                 val response: Response<NewsResponse> = ApiConfig.api.getNews(
@@ -31,11 +32,11 @@ class NewsViewModel(application: Application): AndroidViewModel(application) {
                     val newsList = response.body()?.data?.filterNotNull() ?: emptyList()
                     news.value = newsList
                 } else {
-                    errorMessage.value = "Failed to fetch news data"
+                    errorMessage.value = context.getString(R.string.failed_to_fetch_news_data)
                 }
             } catch (e: Exception) {
                 Log.e("NewsViewModel", "Error fetching news: ", e)
-                errorMessage.value = "Error fetching news data: ${e.message}"
+                errorMessage.value = context.getString(R.string.error_fetching_news_data, e.message)
             }
         }
     }

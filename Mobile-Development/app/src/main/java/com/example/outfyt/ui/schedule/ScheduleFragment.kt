@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.outfyt.databinding.FragmentScheduleBinding
+import com.example.outfyt.R
 
 class ScheduleFragment : Fragment() {
 
@@ -34,7 +35,7 @@ class ScheduleFragment : Fragment() {
                 calendarAdapter = CalendarAdapter(events)
                 recyclerView.adapter = calendarAdapter
             } else {
-                Toast.makeText(requireContext(), "No events found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.no_events_found), Toast.LENGTH_SHORT).show()
             }
         })
 

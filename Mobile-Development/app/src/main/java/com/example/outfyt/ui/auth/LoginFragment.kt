@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.outfyt.ui.auth
 
 import android.content.Intent
@@ -23,6 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.Scope
 import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
