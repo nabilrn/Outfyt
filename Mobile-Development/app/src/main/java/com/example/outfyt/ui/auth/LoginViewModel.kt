@@ -48,6 +48,7 @@ class LoginViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     _authResponse.value = response.body()
                     Log.d("Auth", "Authentication successful")
+
                 } else {
                     _authResponse.value = null
                     Log.e("Auth", "Authentication failed")

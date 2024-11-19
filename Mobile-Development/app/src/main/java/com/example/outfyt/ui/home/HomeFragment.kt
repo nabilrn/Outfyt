@@ -206,6 +206,8 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.uploadImage("Bearer $accessToken", currentUri, requireContext())
+
+        Log.d("HomeFragment", "Uploading image with URI: $accessToken")
     }
 
     override fun onDestroyView() {

@@ -25,9 +25,11 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
 
                 val response: Response<CalendarResponse> = ApiConfig.api.getCalendar(
                     "Bearer $accessToken"
+
                 )
 
                 Log.d("ScheduleViewModel", "Response: $response")
+                Log.d("aksestoken ", accessToken)
 
                 if (response.isSuccessful && response.body() != null) {
                     events.value = response.body()!!.events
