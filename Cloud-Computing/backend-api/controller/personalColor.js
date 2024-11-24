@@ -3,10 +3,10 @@ const { Storage } = require('@google-cloud/storage');
 require("dotenv").config({ path: "../../.env" });
 
 const storage = new Storage({
-  keyFilename: "../halo.json",
+  keyFilename:  process.env.BUCKET_KEY,
 });
 
-const bucketName = "outfyt-image-bucket";
+const bucketName = process.env.BUCKET_NAME;
 
 // Improved model verification function
 async function checkModelExists(modelPath) {

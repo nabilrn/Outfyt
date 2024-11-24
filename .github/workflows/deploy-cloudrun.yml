@@ -22,8 +22,6 @@ jobs:
       with:
         credentials_json: '${{ secrets.GCLOUD_SERVICE_KEY }}'
 
-
-
     - name: Set up Cloud SDK
       uses: 'google-github-actions/setup-gcloud@v1'
 
@@ -43,4 +41,5 @@ jobs:
           --image=gcr.io/${{ secrets.GCLOUD_PROJECT_ID}}/cc-service \
           --region=${{ secrets.GCLOUD_REGION }} \
           --platform=managed \
-          --allow-unauthenticated
+          --allow-unauthenticated \
+          --set-env-vars GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }},REDIRECT_URI=${{ secrets.REDIRECT_URI }},GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }},PORT=${{ secrets.PORT }},BUCKET_NAME=${{ secrets.BUCKET_NAME }},DB_USERNAME=${{ secrets.DB_USERNAME }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_DATABASE=${{ secrets.DB_DATABASE }},DB_HOST=${{ secrets.DB_HOST }},DB_DIALECT=${{ secrets.DB_DIALECT }},BUCKET_KEY=${{ secrets.BUCKET_KEY }}
