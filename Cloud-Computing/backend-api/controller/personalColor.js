@@ -3,7 +3,7 @@ const { Storage } = require('@google-cloud/storage');
 require("dotenv").config({ path: "../../.env" });
 
 const storage = new Storage({
-  keyFilename: "../key.json",
+  keyFilename: "../halo.json",
 });
 
 const bucketName = "outfyt-image-bucket";
