@@ -2,11 +2,11 @@ const express = require("express");
 const {
     auth,
     getCalendar,
-    uploadImage,
     scrapeNews,
 } = require("./controller.js");
 const { start, send, stream } = require("./controller/chat.js");
 const { verifyGoogleToken } = require("./auth.js");
+const {uploadImage}= require("./controller/personalColor.js")
 const multer = require("multer");
 const router = express.Router();
 
@@ -24,7 +24,6 @@ router.post("/auth", auth);
 router.get("/calendar", verifyGoogleToken, getCalendar);
 router.post(
     "/upload-image",
-    verifyGoogleToken,
     upload.single("image"),
     uploadImage
 );
