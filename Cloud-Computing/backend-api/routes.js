@@ -15,7 +15,7 @@ const upload = multer({
 });
 router.get("/test", async (req, res) => {
     const respon = {
-        message: "Server running successfully 5",
+        message: "Server running successfully 10",
     };
     res.json(respon);
 });
