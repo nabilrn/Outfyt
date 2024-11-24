@@ -6,7 +6,7 @@ const storage = new Storage({
   keyFilename: "../key.json",
 });
 
-const bucketName = process.env.BUCKET_NAME;
+const bucketName = "outfyt-image-bucket";
 
 // Improved model verification function
 async function checkModelExists(modelPath) {
