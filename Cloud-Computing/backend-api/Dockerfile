@@ -1,5 +1,5 @@
 # Gunakan Node versi yang dibutuhkan
-FROM node:21.6.2
+FROM node:22
 
 # Atur direktori kerja
 WORKDIR /app
