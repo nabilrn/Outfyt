@@ -4,8 +4,8 @@ FROM node:22
 # Atur direktori kerja
 WORKDIR /app
 
-# # Buat direktori untuk credentials
-# RUN mkdir -p /app/config
+
+COPY bucket-key.json ./bucket-key.json
 
 # Salin file yang dibutuhkan
 COPY package*.json ./
