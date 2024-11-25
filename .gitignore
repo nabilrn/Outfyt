@@ -10,3 +10,5 @@
 .env
 /Cloud-Computing/backend-api/node_modules/
 /Cloud-Computing/backend-api/bucket-key.json
+# Ignore service account keys
+/Cloud-Computing/backend-api/config/bucket-key.json
