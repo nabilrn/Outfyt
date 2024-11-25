@@ -9,11 +9,15 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -27,7 +31,7 @@
         android:theme="@style/Theme.Outfyt"
         tools:targetApi="31">
         <activity
-            android:name=".ui.newsDetail.NewsDetailActivity"
+            android:name=".ui.geminichat.GeminiChatActivity"
             android:exported="false" />
 
         <meta-data

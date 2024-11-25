@@ -1,22 +1,32 @@
 package com.example.outfyt.data.remote.response
 
-data class AuthRequest(val idToken: String, val authCode: String)
+import com.google.gson.annotations.SerializedName
+
+data class AuthRequest(
+    @SerializedName("idToken") val idToken: String,
+    @SerializedName("authCode") val authCode: String
+)
 
 data class AuthResponse(
-    val success: Boolean,
-    val user: UserInfo?,
-    val accessToken: String?,
-    val refreshToken: String?,
-    val message: String?
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("user") val user: UserInfo?,
+    @SerializedName("accessToken") val accessToken: String?,
+    @SerializedName("refreshToken") val refreshToken: String?,
+    @SerializedName("message") val message: String?
 )
 
 data class UserInfo(
-    val googleId: String,
-    val displayName: String,
-    val email: String,
-    val photoUrl: String
+    @SerializedName("googleId") val googleId: String,
+    @SerializedName("displayName") val displayName: String,
+    @SerializedName("email") val email: String,
+    @SerializedName("photoUrl") val photoUrl: String
 )
 
-data class LogoutRequest(val refreshToken: String)
+data class LogoutRequest(
+    @SerializedName("refreshToken") val refreshToken: String
+)
 
-data class LogoutResponse(val success: Boolean, val message: String)
+data class LogoutResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("message") val message: String
+)

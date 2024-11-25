@@ -44,6 +44,11 @@
     <string name="failed_to_fetch_news_data">Failed to fetch news data</string>
     <string name="error_fetching_news_data">Error fetching news data: %1$s</string>
     <string name="no_events_found">No events found</string>
+    <string name="fab">floating button\n</string>
+    <string name="sample_message">Sample message</string>
+    <string name="_12_00_pm">12:00 PM</string>
+    <string name="type_a_message">type a message\n</string>
+    <string name="send">send</string>
 
 
 </resources>

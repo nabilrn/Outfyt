@@ -2,6 +2,7 @@ package com.example.outfyt.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.example.outfyt.data.local.LoginPreferences
 import com.example.outfyt.databinding.FragmentHomeBinding
 import com.example.outfyt.R
+import com.example.outfyt.ui.geminichat.GeminiChatActivity
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -85,6 +87,10 @@ class HomeFragment : Fragment() {
 
         binding.ivImage.setOnClickListener {
             openGallery()
+        }
+        binding.fab.setOnClickListener {
+            val intent = Intent(requireContext(), GeminiChatActivity::class.java)
+            startActivity(intent)
         }
     }
 

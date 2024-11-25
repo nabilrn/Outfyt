@@ -3,6 +3,9 @@ package com.example.outfyt.data.remote.retrofit
 import com.example.outfyt.data.remote.response.AuthRequest
 import com.example.outfyt.data.remote.response.AuthResponse
 import com.example.outfyt.data.remote.response.CalendarResponse
+import com.example.outfyt.data.remote.response.ChatMessageRequest
+import com.example.outfyt.data.remote.response.ChatMessageResponse
+import com.example.outfyt.data.remote.response.GenericResponse
 import com.example.outfyt.data.remote.response.LogoutRequest
 import com.example.outfyt.data.remote.response.LogoutResponse
 import com.example.outfyt.data.remote.response.NewsResponse
@@ -38,6 +41,23 @@ interface ApiService {
     @GET("api/news")
     suspend fun getNews(
         @Header("Authorization") accessToken: String): Response<NewsResponse>
+
+    @POST("api/chat/start")
+    suspend fun startChat(
+        @Header("Authorization") accessToken: String
+    ): Response<GenericResponse>
+
+    @POST("api/chat/send")
+    suspend fun sendMessage(
+        @Header("Authorization") accessToken: String,
+        @Body message: ChatMessageRequest
+    ): Response<ChatMessageResponse>
+//
+//    @POST("api/chat/stream")
+//    suspend fun streamMessage(
+//        @Header("Authorization") accessToken: String,
+//        @Body message: ChatMessageRequest
+//    ): Response<StreamedEventData>
 
 
 }
