@@ -6,7 +6,7 @@ const {
 } = require("./controller.js");
 const { start, send, stream } = require("./controller/chat.js");
 const { verifyGoogleToken } = require("./auth.js");
-const {uploadImage}= require("./controller/personalColor.js")
+const {uploadImage}= require("./controller/uploadImage.js")
 const multer = require("multer");
 const router = express.Router();
 

@@ -2,28 +2,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
-      googleId: {
+    await queryInterface.createTable('Recommendations', {
+      recommendationId: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.STRING
       },
+      scheduleId: {
+        type: Sequelize.STRING,
+        references: {
+          model: 'Schedules', // Nama tabel yang diacu
+          key: 'scheduleId' // Kolom pada tabel Users
+        },
+    
+      },
       displayName: {
         type: Sequelize.STRING
       },
-      email: {
-        type: Sequelize.STRING
-      },
-      photoUrl: {
-        type: Sequelize.STRING
-      },
-      faceImageUrl: {
-        type: Sequelize.STRING
-      },
-      colorType: {
-        type: Sequelize.STRING
-      },
-      refreshTokenOauth: {
+      subCategory: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -37,6 +33,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Recommendations');
   }
 };
