@@ -20,16 +20,18 @@ router.get("/test", async (req, res) => {
     res.json(respon);
 });
 
+
 router.post("/auth", auth);
 router.get("/calendar", verifyGoogleToken, getCalendar);
 router.post(
     "/upload-image",
+    verifyGoogleToken,
     upload.single("image"),
     uploadImage
 );
-router.get("/news", scrapeNews);
-router.post("/chat/start", start);
-router.post("/chat/send", send);
-router.post("/chat/stream", stream);
+router.get("/news",verifyGoogleToken, scrapeNews);
+router.post("/chat/start",verifyGoogleToken, start);
+router.post("/chat/send",verifyGoogleToken, send);
+router.post("/chat/stream",verifyGoogleToken, stream);
 
 module.exports = router;
