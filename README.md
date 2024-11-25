@@ -29,7 +29,6 @@ We make a mobile application named **Outfyt**. **Outfyt** Our project developed 
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
 ![XML](https://img.shields.io/badge/XML-555555?style=for-the-badge&logo=xml&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Firestore](https://img.shields.io/badge/Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 
 ## Our Model Performance
 
@@ -40,36 +39,4 @@ We make a mobile application named **Outfyt**. **Outfyt** Our project developed 
 2. [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
 3. [Retrofit 2](https://square.github.io/retrofit/)
 
-## Fork Repository
-In order to duplicate our repository to become your repository on your own github account, you need to **fork** this repository
-![image](https://user-images.githubusercontent.com/85149518/120605441-405eb400-c478-11eb-9304-4dcd1fa61a71.png) </br>
-Forking repository allows you to modificate this project without affecting the original project.
 
-## Clone Repository
-Download code from branch "main" **OR** 
-2. Clone Repository. Click on dropdown Code and **copy** HTTPS link
-```
-https://github.com/Habiboys/Outfyt.git
-```
-
-### Next Step
-1. Work on the project locally in your own computer
-2. **Create new Branch** based on the feature you make using " git checkout -b <new_branch> " <br/>
-Example :
-```
-git checkout -b layout-member
-```
-3. **Commit** changes to your branch. Don't forget to give proper commit message so other people can understand it <br/>
-Example:
-```
-git commit -m "add layout-member"
-```
-4. **Push** to your branch <br/>
-Example:
-```
-git push origin layout-member
-```
-
-## Project Update
-
-**TBD**
