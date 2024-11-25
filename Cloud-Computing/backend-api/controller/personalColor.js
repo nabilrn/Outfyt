@@ -3,9 +3,8 @@ const { Storage } = require('@google-cloud/storage');
 require("dotenv").config({ path: "../../.env" });
 
 const storage = new Storage({
-  credentials: JSON.parse(process.env.BUCKET_KEY), // Menggunakan JSON yang langsung di-decode dari environment variable
+  keyFilename:  "../bucket-key.json",
 });
-
 
 const bucketName = process.env.BUCKET_NAME;
 
