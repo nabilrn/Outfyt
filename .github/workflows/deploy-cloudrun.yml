@@ -27,8 +27,8 @@ jobs:
 
             - name: Create Service Account Key File
               run: |
-                echo '${{ secrets.BUCKET_KEY }}' > ../bucket-key.json
-            
+                  cd Cloud-Computing/backend-api
+                  echo '${{ secrets.BUCKET_KEY }}' > config/bucket-key.json
 
             - name: Authenticate Docker with GCP
               run: gcloud auth configure-docker
