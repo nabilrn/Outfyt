@@ -5,7 +5,7 @@ FROM node:22
 WORKDIR /app
 
 # # Buat direktori untuk credentials
-RUN mkdir -p /app/config
+# RUN mkdir -p /app/config
 
 # Salin file yang dibutuhkan
 COPY package*.json ./
