@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Schedule, {
+        foreignKey: "googleId",
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      });
     }
   }
   User.init(
@@ -21,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       displayName: DataTypes.STRING,
       email: DataTypes.STRING,
       photoUrl: DataTypes.STRING,
+      faceImageUrl: DataTypes.STRING,
+      colorType: DataTypes.STRING,
       refreshTokenOauth: DataTypes.STRING,
     },
     {
