@@ -29,14 +29,9 @@ router.post(
     upload.single("image"),
     uploadImage
 );
-router.post(
-    "/upload-image-test",
-    upload.single("image"),
-    uploadImage
-);
 router.get("/news",verifyGoogleToken, scrapeNews);
 router.post("/chat/start",verifyGoogleToken, start);
 router.post("/chat/send",verifyGoogleToken, send);
-router.post("/chat/stream",verifyGoogleToken, stream);
+router.post("/chat/stream", stream);
 
 module.exports = router;
