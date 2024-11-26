@@ -18,7 +18,7 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
-      decs: {
+      desc: {
         type: Sequelize.STRING
       },
       date: {

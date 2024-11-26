@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
       photoUrl: DataTypes.STRING,
       faceImageUrl: DataTypes.STRING,
       colorType: DataTypes.STRING,
+      gender: DataTypes.STRING,
+      genderCategory: DataTypes.STRING,
       refreshTokenOauth: DataTypes.STRING,
     },
     {
