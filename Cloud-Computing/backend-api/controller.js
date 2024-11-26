@@ -1,6 +1,7 @@
 // controllers/auth.controller.js
 const { google } = require('googleapis');
 const { User } = require('./models/index.js');
+const { Schedule } = require('./models');  
 require("dotenv").config({ path: "../../.env" });
 
 const axios = require('axios');
@@ -87,25 +88,63 @@ const getCalendar = async (req, res) => {
   try {
     const calendar = google.calendar({ version: 'v3', auth: req.oauth2Client });
 
+    const today = new Date();
+    // Mendapatkan tanggal 10 hari mendatang
+    const tenDaysLater = new Date();
+    tenDaysLater.setDate(today.getDate() + 10);
+
     const events = await calendar.events.list({
       calendarId: 'primary',
-      timeMin: new Date().toISOString(),
-      maxResults: 10,
+      timeMin: today.toISOString(),  // Waktu mulai dari hari ini
+      timeMax: tenDaysLater.toISOString(),  // Waktu akhir 10 hari mendatang
       singleEvents: true,
       orderBy: 'startTime',
     });
 
-    const response = {
-      success: true,
-      events: events.data.items,
-    };
+    // Iterasi atas setiap event dan simpan ke database
+    for (const event of events.data.items) {
+      const startDateTime = event.start.dateTime || event.start.date;
+      const startTime = startDateTime ? new Date(startDateTime).toISOString() : null;
 
-    // If token was refreshed, send new access token
-    if (req.newAccessToken) {
-      response.newAccessToken = req.newAccessToken;
+      // Cari apakah ada entri dengan scheduleId yang sama
+      const existingSchedule = await Schedule.findOne({
+        where: { scheduleId: event.id },
+      });
+
+      if (existingSchedule) {
+        // Jika data sudah ada, lakukan update
+        existingSchedule.title = event.summary || '';
+        existingSchedule.desc = event.description || '';
+        existingSchedule.date = startDateTime ? startDateTime.split('T')[0] : null;
+        existingSchedule.time = startTime ? startTime.split('T')[1] : null;
+        existingSchedule.type = event.eventType || 'default';
+        existingSchedule.updatedAt = new Date();
+
+        await existingSchedule.save();
+        console.log('Schedule updated:', existingSchedule);
+      } else {
+        // Jika data belum ada, buat entri baru
+        const newSchedule = await Schedule.create({
+          scheduleId: event.id,
+          googleId: req.user.googleId, // Asumsi googleId pengguna sudah tersedia di req.user
+          title: event.summary || '',
+          desc: event.description || '',
+          date: startDateTime ? startDateTime.split('T')[0] : null, // Ambil bagian tanggal dari dateTime
+          time: startTime ? startTime.split('T')[1] : null, // Ambil bagian waktu dari dateTime
+          type: event.eventType || 'default', // Asumsi ada eventType, atau bisa ganti dengan field lain
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+
+        console.log('Schedule saved:', newSchedule);
+      }
     }
 
-    res.json(response);
+    res.json({
+      success: true,
+      events: events.data.items,
+    });
+
   } catch (error) {
     console.error('Calendar fetch error:', error);
     res.status(500).json({

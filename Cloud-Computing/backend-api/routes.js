@@ -7,6 +7,7 @@ const {
 const { start, send, stream } = require("./controller/chat.js");
 const { verifyGoogleToken } = require("./auth.js");
 const {uploadImage}= require("./controller/uploadImage.js")
+const {personalColor}= require("./controller/personalColor.js")
 const multer = require("multer");
 const router = express.Router();
 
@@ -29,9 +30,10 @@ router.post(
     upload.single("image"),
     uploadImage
 );
+router.get("/personal-color", verifyGoogleToken, personalColor);
 router.get("/news",verifyGoogleToken, scrapeNews);
 router.post("/chat/start",verifyGoogleToken, start);
 router.post("/chat/send",verifyGoogleToken, send);
-router.post("/chat/stream", stream);
+router.post("/chat/stream",verifyGoogleToken, stream);
 
 module.exports = router;

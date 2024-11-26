@@ -35,10 +35,10 @@ module.exports = (sequelize, DataTypes) => {
     googleId: DataTypes.STRING,
     title: DataTypes.STRING,
     date: DataTypes.STRING,
-    decs: DataTypes.STRING,
+    desc: DataTypes.STRING,
     time: DataTypes.STRING,
     type: DataTypes.STRING,
-    email: DataTypes.STRING,
+
 
     
   
