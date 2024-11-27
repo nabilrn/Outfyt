@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp") version "2.0.21-1.0.25"
-    id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
 }
@@ -18,7 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000\"")
+        buildConfigField("String", "BASE_URL", "\"https://cc-service-512770486417.asia-southeast2.run.app/\"")
     }
 
     buildTypes {
@@ -62,12 +61,13 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.activity)
     ksp(libs.androidx.room.compiler)
-    kapt(libs.hilt.android.compiler)
+
 
     implementation(libs.play.services.location)
     implementation(libs.play.services.auth)
 
     implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.preferences)

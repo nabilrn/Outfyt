@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/C:/Users/Khalied%20Maturino/AppData/Local/Android/Sdk/icons/material/materialicons/image/baseline_image_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/arrow_back/baseline_arrow_back_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,7 +29,7 @@
                         <option name="values">
                           <map>
                             <entry key="opacityPercent" value="43" />
-                            <entry key="outputName" value="ic_image" />
+                            <entry key="outputName" value="ic_back" />
                             <entry key="sourceFile" value="C:\Bangkit_Android_Dev\CEPSTONE\Outfyt" />
                           </map>
                         </option>

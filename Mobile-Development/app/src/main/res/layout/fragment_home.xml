@@ -24,8 +24,8 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:text="@string/upload_image"
-        app:layout_constraintBottom_toBottomOf="parent"
         style="@style/Widget.Material3.Button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_gallery"
@@ -35,7 +35,7 @@
         android:id="@+id/btn_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="68dp"
         android:text="@string/take_picture"
@@ -49,9 +49,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_gallery"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="68dp"
         android:layout_marginEnd="20dp"
         style="@style/Widget.Material3.Button"
@@ -60,9 +60,6 @@
         android:textStyle="bold"
         app:icon="@drawable/ic_gallery"
         app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintHorizontal_bias="0.0"
-
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/iv_image" />
 
@@ -71,6 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        style="@style/Widget.Material3.CircularProgressIndicator"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +79,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="217dp" />
+        app:layout_constraintGuide_percent="0.5" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/fab"
+        app:srcCompat="@drawable/ic_gemini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
