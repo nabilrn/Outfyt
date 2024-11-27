@@ -9,8 +9,8 @@ import com.example.outfyt.data.remote.retrofit.ApiConfig
 import kotlinx.coroutines.launch
 import android.content.Context
 import android.util.Log
-
-data class ColorRecommendation(val hexCode: String)
+import com.example.outfyt.data.model.ColorRecommendation
+import com.example.outfyt.data.model.PersonalColorData
 
 class ResultViewModel : ViewModel() {
     private val _personalColorData = MutableLiveData<PersonalColorData>()
@@ -60,10 +60,3 @@ class ResultViewModel : ViewModel() {
         }
     }
 }
-
-data class PersonalColorData(
-    val imageUrl: String?,
-    val colorType: String?,
-    val genderCategory: String?,
-    val recommendedColors: List<ColorRecommendation>
-)

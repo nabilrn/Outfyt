@@ -69,4 +69,5 @@
     <string name="not_available">Not Available</string>
     <string name="invalid_color">Invalid Color</string>
     <string name="hasil_analisa">Hasil Analisis Warna mu!</string>
+    <string name="back_to_home">Back to Home</string>
 </resources>

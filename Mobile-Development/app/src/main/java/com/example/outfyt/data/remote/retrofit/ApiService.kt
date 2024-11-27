@@ -14,11 +14,14 @@ import com.example.outfyt.data.remote.response.RefreshTokenRequest
 import com.example.outfyt.data.remote.response.TokenResponse
 import com.example.outfyt.data.remote.response.UploadResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -38,8 +41,8 @@ interface ApiService {
     @POST("api/upload-image")
     suspend fun uploadImage(
         @Header("Authorization") accessToken: String,
-        @Part("gender") gender: String,
-        @Part("age") age: Int,
+        @Part("gender") gender: RequestBody,
+        @Part("age") age: RequestBody,
         @Part image: MultipartBody.Part
     ): Response<UploadResponse>
 
@@ -58,6 +61,7 @@ interface ApiService {
         @Body message: ChatMessageRequest
     ): Response<ChatMessageResponse>
 
+    @Headers("Content-Type: application/json")
     @POST("api/refresh-token")
     suspend fun refreshToken(
         @Header("Authorization") accessToken: String,
