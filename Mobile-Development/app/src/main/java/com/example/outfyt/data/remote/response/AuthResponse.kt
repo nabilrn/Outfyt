@@ -12,7 +12,7 @@ data class AuthResponse(
     @SerializedName("user") val user: UserInfo?,
     @SerializedName("accessToken") val accessToken: String?,
     @SerializedName("refreshToken") val refreshToken: String?,
-    @SerializedName("message") val message: String?
+    @SerializedName("message") val message: String?,
 )
 
 data class UserInfo(

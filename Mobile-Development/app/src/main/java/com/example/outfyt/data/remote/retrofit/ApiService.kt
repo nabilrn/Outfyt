@@ -9,6 +9,9 @@ import com.example.outfyt.data.remote.response.GenericResponse
 import com.example.outfyt.data.remote.response.LogoutRequest
 import com.example.outfyt.data.remote.response.LogoutResponse
 import com.example.outfyt.data.remote.response.NewsResponse
+import com.example.outfyt.data.remote.response.PersonalColorResponse
+import com.example.outfyt.data.remote.response.RefreshTokenRequest
+import com.example.outfyt.data.remote.response.TokenResponse
 import com.example.outfyt.data.remote.response.UploadResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -54,6 +57,17 @@ interface ApiService {
         @Header("Authorization") accessToken: String,
         @Body message: ChatMessageRequest
     ): Response<ChatMessageResponse>
+
+    @POST("api/refresh-token")
+    suspend fun refreshToken(
+        @Header("Authorization") accessToken: String,
+        @Body refreshTokenRequest: RefreshTokenRequest
+    ): Response<TokenResponse>
+
+    @GET("api/personal-color")
+    suspend fun getPersonalColor(
+        @Header("Authorization") accessToken: String
+    ): Response<PersonalColorResponse>
 //
 //    @POST("api/chat/stream")
 //    suspend fun streamMessage(

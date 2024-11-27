@@ -4,6 +4,7 @@
     <string name="title_form">Form</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">News</string>
+    <string name="title_result">Result</string>
     <string name="Account">Account</string>
     <string name="title_account">Account\n</string>
     <string name="title_schedule">Schedule\n</string>
@@ -55,5 +56,17 @@
     <string name="gender">Gender ♀️♂️</string>
     <string name="age">Age 📅</string>
     <string name="isi_semua_data">Semua Data harus Diisi!</string>
-
+    <string name="token_refreshed_successfully">Token Berhasil Dibuat</string>
+    <string name="token_refresh_failed">Token Gagal Dibuat</string>
+    <string name="lihat_baju_mu">Lihat Baju Mu</string>
+    <string name="tipe_warna">Tipe Warna</string>
+    <string name="winter">Winter</string>
+    <string name="gender_category">Kategori Gender</string>
+    <string name="male">Male</string>
+    <string name="rekomen">Rekomendasi Warna</string>
+    <string name="hex">HEX</string>
+    <string name="warna">Warna</string>
+    <string name="not_available">Not Available</string>
+    <string name="invalid_color">Invalid Color</string>
+    <string name="hasil_analisa">Hasil Analisis Warna mu!</string>
 </resources>

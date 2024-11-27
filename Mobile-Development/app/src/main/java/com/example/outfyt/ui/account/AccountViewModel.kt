@@ -34,7 +34,7 @@ class AccountViewModel : ViewModel() {
                     val response = apiService.logout(logoutRequest)
 
                     if (response.isSuccessful && response.body()?.success == true) {
-                        LoginPreferences.saveLoginState(context, false, null, null)
+                        LoginPreferences.saveLoginState(context, false, null, null, null)
                         _logoutSuccess.postValue(true)
                     } else {
                         _logoutSuccess.postValue(false)
@@ -45,7 +45,7 @@ class AccountViewModel : ViewModel() {
                 }
             }
         } else {
-            LoginPreferences.saveLoginState(context, false, null, null)
+            LoginPreferences.saveLoginState(context, false, null, null, null)
             _logoutSuccess.postValue(true)
         }
     }

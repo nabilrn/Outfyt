@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.outfyt.R
 import com.example.outfyt.data.local.LoginPreferences
@@ -130,6 +131,13 @@ class FormFragment : Fragment() {
                 formViewModel.resetComplete()
             }
         }
+
+        formViewModel.navigateToResults.observe(viewLifecycleOwner) { shouldNavigate ->
+            if (shouldNavigate) {
+                findNavController().navigate(R.id.action_formFragment_to_resultsFragment)
+                formViewModel.onNavigatedToResults()
+            }
+        }
     }
 
     private fun resetImageState() {
@@ -157,7 +165,7 @@ class FormFragment : Fragment() {
                 return it.available() > 0
             } ?: false
         } catch (e: Exception) {
-            Log.e("HomeFragment", "Error validating image", e)
+            Log.e("FormFragment", "Error validating image", e)
             false
         }
     }
@@ -197,7 +205,7 @@ class FormFragment : Fragment() {
             )
             takePicture.launch(temporaryPhotoUri)
         } catch (e: Exception) {
-            Log.e("HomeFragment", "Error starting camera", e)
+            Log.e("FormFragment", "Error starting camera", e)
             Toast.makeText(requireContext(), getString(R.string.failed_to_start_camera), Toast.LENGTH_SHORT).show()
         }
     }
@@ -230,8 +238,12 @@ class FormFragment : Fragment() {
             return
         }
 
-        formViewModel.uploadImage("Bearer $accessToken", gender, age, currentUri, requireContext())
-        Log.d("HomeFragment", "Uploading data with URI: $accessToken, $gender, $age, $currentUri")
+        val googleId = LoginPreferences.getGoogleId(requireContext())
+
+        formViewModel.uploadImage("Bearer $accessToken", gender, age, currentUri, requireContext
+            (), googleId.toString()
+        )
+        Log.d("FormFragment", "Uploading data with URI: $accessToken, $gender, $age, $currentUri")
     }
 
     private fun genderDropdown() {
