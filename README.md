@@ -24,13 +24,13 @@ We make a mobile application named **Outfyt**. **Outfyt** Our project developed 
 | Tech Stack         | Purpose                                                                 |
 |---------------------|-------------------------------------------------------------------------|
 | ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white) | Development of Android mobile applications.                     |
-| ![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)   | Programming language for Android and other applications.        |
+| ![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)   | Programming language for Android.        |
 | ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white) | Backend development and server-side JavaScript execution.       |
 | ![Google Colab](https://img.shields.io/badge/Google%20Colab-F9AB00?style=for-the-badge&logo=google-colab&logoColor=white) | Cloud-based Jupyter notebook environment for Python experiments.|
-| ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)   | General-purpose programming, machine learning, and data science.|
-| ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) | Frontend and backend web development.                           |
+| ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)   | Build Model.|
+| ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) | backend web development.                           |
 | ![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white) | Web application framework for Node.js.                          |
-| ![XML](https://img.shields.io/badge/XML-555555?style=for-the-badge&logo=xml&logoColor=white) | Data formatting and configuration in Android and other contexts.|
+| ![XML](https://img.shields.io/badge/XML-555555?style=for-the-badge&logo=xml&logoColor=white) | Layout for Android and other contexts.|
 | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)   | Containerization and deployment of applications.                |
 
 
