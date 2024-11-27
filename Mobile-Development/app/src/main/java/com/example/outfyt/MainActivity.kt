@@ -24,7 +24,10 @@ class MainActivity : AppCompatActivity() {
 
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
-                    R.id.navigation_login -> hideBottomNavigationAndTopAppBar()
+                    R.id.navigation_login ->
+                        hideBottomNavigationAndTopAppBar()
+                    R.id.navigation_form, R.id.navigation_result ->
+                        hideBottomNavigation()
                     else -> showBottomNavigationAndTopAppBar()
                 }
             }
@@ -44,6 +47,10 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun hideBottomNavigation() {
+        binding.navView.visibility = View.GONE
     }
 
     private fun hideBottomNavigationAndTopAppBar() {

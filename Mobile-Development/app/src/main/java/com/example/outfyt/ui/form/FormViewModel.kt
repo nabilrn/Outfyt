@@ -3,11 +3,14 @@ package com.example.outfyt.ui.form
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import android.util.Log.e
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.outfyt.R
+import com.example.outfyt.data.local.LoginPreferences
+import com.example.outfyt.data.remote.response.RefreshTokenRequest
 import com.example.outfyt.data.remote.retrofit.ApiConfig
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -28,9 +31,66 @@ class FormViewModel : ViewModel() {
     private val _shouldResetImage = MutableLiveData<Boolean>()
     val shouldResetImage: LiveData<Boolean> get() = _shouldResetImage
 
+    private val _navigateToResults = MutableLiveData<Boolean>()
+    val navigateToResults: LiveData<Boolean> get() = _navigateToResults
+
     private val apiService = ApiConfig.api
 
-    fun uploadImage(token: String, gender: String, age: Int, imageUri: Uri, context: Context) {
+    fun onUploadSuccess() {
+        _navigateToResults.value = true
+    }
+
+    fun onNavigatedToResults() {
+        _navigateToResults.value = false
+    }
+
+    fun refreshAccessToken(context: Context) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val currentAccessToken = LoginPreferences.getAccessToken(context)
+                    ?: throw IllegalStateException("No access token available")
+
+                val googleId = LoginPreferences.getGoogleId(context)
+                val refreshTokenRequest = RefreshTokenRequest(googleId.toString())
+                val response = apiService.refreshToken("Bearer $currentAccessToken", refreshTokenRequest)
+
+                when {
+                    response.isSuccessful && response.body()?.success == true -> {
+                        val tokenResponse = response.body()!!
+                        val newAccessToken = tokenResponse.accessToken
+
+                        if (!newAccessToken.isNullOrEmpty()) {
+                            // Save new access token
+                            LoginPreferences.saveAccessToken(context, newAccessToken)
+
+                            _uploadStatus.postValue(context.getString(R.string.token_refreshed_successfully))
+                            _isLoading.value = false
+                        } else {
+                            handleTokenRefreshFailure(context, "Empty new token")
+                        }
+                    }
+                    else -> {
+                        // Handle specific error scenarios
+                        val errorMessage = response.body()?.error
+                            ?: "Refresh failed: ${response.code()} - ${response.message()}"
+                        handleTokenRefreshFailure(context, errorMessage)
+                    }
+                }
+            } catch (e: Exception) {
+                handleTokenRefreshFailure(context, "Exception: ${e.message}")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    private fun handleTokenRefreshFailure(context: Context, errorMessage: String) {
+        Log.e("FormViewModel", "Token Refresh Error: $errorMessage")
+        _uploadStatus.postValue(context.getString(R.string.token_refresh_failed))
+    }
+
+    fun uploadImage(token: String, gender: String, age: Int, imageUri: Uri, context: Context, googleId: String) {
         try {
             context.contentResolver.openInputStream(imageUri).use { input ->
                 if (input == null || input.available() <= 0) {
@@ -72,13 +132,31 @@ class FormViewModel : ViewModel() {
                         Log.e("FormViewModel", "Upload failed: Image URL is null")
                     }
                     _shouldResetImage.value = true
+                    _isLoading.value = false
+                    onUploadSuccess()
+                } else if (response.code() == 401) {
+                    refreshAccessToken(context)
+                    val newToken = LoginPreferences.getAccessToken(context)
+                    if (!newToken.isNullOrEmpty()) {
+                        uploadImage("Bearer $newToken", gender, age, imageUri, context, googleId)
+                    } else {
+                        _uploadStatus.postValue(context.getString(R.string.token_refresh_failed))
+                    }
+                    _shouldResetImage.value = true
+                    _isLoading.value = false
+                    onUploadSuccess()
                 } else {
                     _uploadStatus.value = context.getString(R.string.upload_failed, response.message())
-                    Log.e("FormViewModel", "Upload failed: Kenapa INI")
+                    Log.e("FormViewModel", "Upload failed: ${response.code()} - ${response.message()}")
+                    response.errorBody()?.let {
+                        Log.e("FormViewModel", "Error response body: ${it.string()}")
+                    }
+                    _isLoading.value = false
                 }
             } catch (e: Exception) {
                 _uploadStatus.value = context.getString(R.string.upload_error, e.message)
                 Log.e("FormViewModel", "Upload error", e)
+                _isLoading.value = false
             } finally {
                 _isLoading.value = false
                 tempFile?.let {

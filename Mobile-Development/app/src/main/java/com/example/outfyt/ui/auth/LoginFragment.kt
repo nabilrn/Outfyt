@@ -88,7 +88,7 @@ class LoginFragment : Fragment() {
         viewModel.authResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response?.success == true) {
                 lifecycleScope.launch {
-                    LoginPreferences.saveLoginState(requireContext(), true, response.user?.displayName, response.accessToken)
+                    LoginPreferences.saveLoginState(requireContext(), true, response.user?.displayName, response.accessToken, response.user)
                     Log.d("SharedPref", "Login state saved")
                 }
                 val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
