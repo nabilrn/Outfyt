@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Outfyt</string>
     <string name="title_home">Home</string>
+    <string name="title_form">Form</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">News</string>
     <string name="Account">Account</string>
@@ -18,6 +19,7 @@
     <string name="logo">Logo</string>
     <string name="background">Background</string>
     <string name="upload_image">Upload Image</string>
+    <string name="upload">Upload</string>
     <string name="foto">Foto</string>
     <string name="title">Title</string>
     <string name="author">Author</string>
@@ -49,6 +51,9 @@
     <string name="_12_00_pm">12:00 PM</string>
     <string name="type_a_message">type a message\n</string>
     <string name="send">send</string>
-
+    <string name="analisis_warna">Mulai Analisis Warnamu!</string>
+    <string name="gender">Gender ♀️♂️</string>
+    <string name="age">Age 📅</string>
+    <string name="isi_semua_data">Semua Data harus Diisi!</string>
 
 </resources>
