@@ -12,6 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.outfyt.R
+import com.example.outfyt.data.model.ColorRecommendation
+import com.example.outfyt.data.model.PersonalColorData
 import com.example.outfyt.databinding.FragmentResultBinding
 
 class ResultFragment : Fragment() {
@@ -43,9 +45,9 @@ class ResultFragment : Fragment() {
             updateUI(data)
         }
 
-//        resultViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-//        }
+        resultViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
 
         resultViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
@@ -59,9 +61,11 @@ class ResultFragment : Fragment() {
                 .into(binding.ivPicture)
         }
 
-        binding.tvColorType.text = data.colorType ?: getString(R.string.not_available)
+        binding.tvColorType.text =
+            data.colorType?.replaceFirstChar { it.uppercase() } ?: getString(R.string.not_available)
 
-        binding.tvGenderCategory.text = data.genderCategory ?: getString(R.string.not_available)
+        binding.tvGenderCategory.text =
+            data.genderCategory?.replaceFirstChar { it.uppercase() } ?: getString(R.string.not_available)
 
         updateRecommendedColors(data.recommendedColors)
     }

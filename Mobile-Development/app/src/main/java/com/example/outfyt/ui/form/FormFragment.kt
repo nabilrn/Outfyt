@@ -36,6 +36,7 @@ class FormFragment : Fragment() {
     private val formViewModel: FormViewModel by viewModels()
     private var selectedImageUri: Uri? = null
     private var temporaryPhotoUri: Uri? = null
+    private var selectedGender: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,16 +67,14 @@ class FormFragment : Fragment() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+    private val requestCameraPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
                 startCamera()
             } else {
                 Toast.makeText(requireContext(), getString(R.string.camera_permission_required), Toast.LENGTH_SHORT).show()
             }
         }
-    }
 
     private fun setupViews() {
         binding.btnGallery.setOnClickListener {
@@ -83,8 +82,9 @@ class FormFragment : Fragment() {
         }
 
         binding.btnCamera.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+                requestCameraPermission.launch(Manifest.permission.CAMERA)
             } else {
                 startCamera()
             }
@@ -214,6 +214,21 @@ class FormFragment : Fragment() {
         getContent.launch("image/*")
     }
 
+    private fun genderDropdown() {
+        val genderDropdown: AutoCompleteTextView = binding.genderAutoComplete
+        val genderOptions = listOf("Male", "Female")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, genderOptions)
+        genderDropdown.setAdapter(adapter)
+        genderDropdown.setOnItemClickListener { _, _, position, _ ->
+            selectedGender = when (position) {
+                0 -> "male"
+                1 -> "female"
+                else -> null
+            }
+            Log.d("Upload", "Selected gender: $selectedGender")
+        }
+    }
+
     private fun uploadSelectedImage() {
         val currentUri = selectedImageUri
         if (currentUri == null || !isImageValid(currentUri)) {
@@ -228,10 +243,14 @@ class FormFragment : Fragment() {
             return
         }
 
-        val gender = binding.genderAutoComplete.text.toString()
+        if (selectedGender.isNullOrBlank()) {
+            Toast.makeText(requireContext(), getString(R.string.isi_semua_data), Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val age = binding.etAge.text.toString().toIntOrNull()
 
-        if (gender.isBlank() || age == null) {
+        if (age == null) {
             Toast.makeText(requireContext(), getString(R.string.isi_semua_data), Toast
                 .LENGTH_SHORT)
                 .show()
@@ -240,25 +259,11 @@ class FormFragment : Fragment() {
 
         val googleId = LoginPreferences.getGoogleId(requireContext())
 
-        formViewModel.uploadImage("Bearer $accessToken", gender, age, currentUri, requireContext
+        formViewModel.uploadImage("Bearer $accessToken", selectedGender!!, age, currentUri,
+            requireContext
             (), googleId.toString()
         )
-        Log.d("FormFragment", "Uploading data with URI: $accessToken, $gender, $age, $currentUri")
-    }
-
-    private fun genderDropdown() {
-        val genderDropdown: AutoCompleteTextView = binding.genderAutoComplete
-        val genderOptions = listOf("Male", "Female")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, genderOptions)
-        genderDropdown.setAdapter(adapter)
-        genderDropdown.setOnItemClickListener { _, _, position, _ ->
-            val selectedGender = when (position) {
-                0 -> "male"
-                1 -> "female"
-                else -> null
-            }
-            Log.d("Upload", "Selected gender: $selectedGender")
-        }
+        Log.d("FormFragment", "Uploading data with URI: $accessToken, $selectedGender, $age, $currentUri")
     }
 
     override fun onDestroyView() {
@@ -267,7 +272,4 @@ class FormFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        private const val REQUEST_CAMERA_PERMISSION = 1
-    }
 }
