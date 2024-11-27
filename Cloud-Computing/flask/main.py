@@ -1,35 +1,104 @@
 import os
-import numpy as np
+import tempfile
 import requests
+import numpy as np
 from flask import Flask, request, jsonify
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from PIL import Image
 from io import BytesIO
-import tempfile  # Untuk file sementara
+import pickle
 
-# Inisialisasi aplikasi Flask
-app = Flask(_name_)
+app = Flask(__name__)
 
 # Fungsi untuk memuat model dari URL
 def load_model_from_url(url):
     response = requests.get(url)
     if response.status_code == 200:
-        with tempfile.NamedTemporaryFile(suffix=".h5", delete=True) as temp_model_file:
-            temp_model_file.write(response.content)
-            temp_model_file.flush()  # Pastikan semua data tersimpan ke disk
-            model = load_model(temp_model_file.name)
-            return model
+        # Membuat direktori sementara yang dapat diakses
+        temp_dir = tempfile.mkdtemp()
+        
+        model_path = os.path.join(temp_dir, 'model.h5')
+        
+        # Menyimpan file model ke direktori sementara
+        with open(model_path, 'wb') as f:
+            f.write(response.content)
+        
+        # Memuat model dari file sementara
+        model = load_model(model_path)
+        return model
     else:
-        raise Exception("Failed to load model from URL. Status code: " + str(response.status_code))
+        raise Exception(f"Failed to load model from URL. Status code: {response.status_code}")
 
-# Parameter gambar
+# Fungsi untuk memuat file pickle (vectorizer, label encoder) dari URL
+def load_pickle_from_url(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        # Membuat direktori sementara yang dapat diakses
+        temp_dir = tempfile.mkdtemp()
+        
+        pickle_path = os.path.join(temp_dir, 'file.pkl')
+        
+        # Menyimpan file pickle ke direktori sementara
+        with open(pickle_path, 'wb') as f:
+            f.write(response.content)
+        
+        # Memuat vectorizer atau label encoder
+        with open(pickle_path, 'rb') as f:
+            return pickle.load(f)
+    else:
+        raise Exception(f"Failed to load file from URL. Status code: {response.status_code}")
+
+# Parameter gambar untuk prediksi warna
 img_height, img_width = 224, 224
 class_labels = ["fall", "spring", "summer", "winter"]
 
+# Endpoint untuk prediksi aktivitas berdasarkan input teks
+@app.route('/predict/activity', methods=['POST'])
+def predict_activity():
+    try:
+        data = request.get_json()
+
+        if 'folder_url' not in data:
+            return jsonify({"error": "No folder URL provided"}), 400
+        
+        folder_url = data['folder_url']
+
+        # Mengonfigurasi URL untuk file model, vectorizer, dan label encoder
+        model_url = os.path.join(folder_url, 'nlp.h5')
+        vectorizer_url = os.path.join(folder_url, 'vectorizer.pkl')
+        label_encoder_url = os.path.join(folder_url, 'label_encoder.pkl')
+
+        # Memuat model, vectorizer, dan label encoder dari URL
+        model = load_model_from_url(model_url)
+        vectorizer = load_pickle_from_url(vectorizer_url)
+        label_encoder = load_pickle_from_url(label_encoder_url)
+
+        # Mendapatkan input teks dari permintaan
+        input_text = data.get('input_text', '')
+        if not input_text:
+            return jsonify({"error": "No input text provided"}), 400
+        
+        # Mengubah input teks menjadi vektor menggunakan vectorizer
+        input_vectorized = vectorizer.transform([input_text])
+
+        # Prediksi kategori menggunakan model
+        predictions = model.predict(input_vectorized.toarray())
+        predicted_index = predictions.argmax()
+        predicted_category = label_encoder.inverse_transform([predicted_index])[0]
+
+        # Mengembalikan hasil prediksi
+        return jsonify({
+            "predicted_category": predicted_category,
+            "prediction_probability": predictions[0].tolist()
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 # Endpoint untuk prediksi berdasarkan URL gambar dan model
 @app.route('/predict/color', methods=['POST'])
-def predict():
+def predict_color():
     try:
         # Mendapatkan data JSON dari permintaan
         data = request.get_json()
@@ -71,5 +140,5 @@ def predict():
         return jsonify({"error": str(e)}), 500
 
 # Menjalankan aplikasi Flask
-if _name_ == "_main_":
+if __name__ == "__main__":
     app.run(debug=True)

@@ -1,11 +1,9 @@
 const express = require("express");
-const {
-    auth,
-    getCalendar,
-    scrapeNews,
-} = require("./controller.js");
+
+const { auth, verifyAccessToken, refreshAccessToken  } = require("./controller/auth.js");
+const { scrapeNews } = require("./controller/news.js");
+const { getCalendar } = require("./controller/calendar.js");
 const { start, send, stream } = require("./controller/chat.js");
-const { verifyAccessToken, refreshAccessToken } = require("./auth.js");
 const {uploadImage}= require("./controller/uploadImage.js")
 const {personalColor}= require("./controller/personalColor.js")
 const multer = require("multer");

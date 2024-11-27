@@ -1,7 +1,87 @@
+// controllers/auth.controller.js
 const { google } = require('googleapis');
-const { User } = require('./models/index.js');
+const { User } = require('../models/index.js');
 require("dotenv").config({ path: "../../.env" });
 // require("dotenv").config();
+
+
+const auth = async (req, res) => {
+  const { idToken, authCode } = req.body;
+
+  try {
+    const client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      process.env.REDIRECT_URI
+    );
+
+    // Get tokens from authCode
+    const { tokens } = await client.getToken(authCode);
+
+    // Verify ID token
+    const ticket = await client.verifyIdToken({
+      idToken: idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const googleId = payload['sub'];
+
+    try {
+      let user = await User.findByPk(googleId);
+
+      if (user) {
+        const updateData = {
+          displayName: payload['name'],
+          email: payload['email'],
+          photoUrl: payload['picture'],
+        };
+
+        if (tokens.refresh_token) {
+          updateData.refreshTokenOauth = tokens.refresh_token;
+        }
+
+        await user.update(updateData);
+      } else {
+        user = await User.create({
+          googleId: googleId,
+          displayName: payload['name'],
+          email: payload['email'],
+          photoUrl: payload['picture'],
+          refreshTokenOauth: tokens.refresh_token,
+        });
+      }
+
+      // Only send access token to client
+      res.json({
+        success: true,
+        user: {
+          googleId: user.googleId,
+          displayName: user.displayName,
+          email: user.email,
+          photoUrl: user.photoUrl
+        },
+        accessToken: tokens.access_token
+      });
+    } catch (dbError) {
+      console.error('Database error:', dbError);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to save user data'
+      });
+    }
+  } catch (error) {
+    console.error('Authentication error:', error);
+    res.status(401).json({
+      success: false,
+      error: 'Authentication failed'
+    });
+  }
+};
+
+
+
+
 
 const verifyAccessToken = async (req, res, next) => {
   const accessToken = req.headers['authorization']?.split(' ')[1];
@@ -107,6 +187,7 @@ const refreshAccessToken = async (req, res) => {
 };
 
 module.exports = { 
+  auth,
   verifyAccessToken,
   refreshAccessToken
 };

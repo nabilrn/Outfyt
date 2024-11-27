@@ -3,6 +3,7 @@ const axios = require('axios');  // Tambahkan axios untuk melakukan request ke e
 const path = require('path');
 const { User } = require('../models');  // Sesuaikan dengan model yang kamu gunakan
 require("dotenv").config({ path: "../../../.env" });
+const base_url = process.env.FLASK_BASE_URL;
 
 const storage = new Storage({
   keyFilename: "./bucket-key.json",
@@ -58,7 +59,7 @@ const uploadImage = async (req, res) => {
         // Kirim request ke /predict/color dengan image_url dan model_url
         const modelUrl = `https://storage.googleapis.com/${bucketName}/model-color/model.h5`; // Gantilah ini jika model berada di lokasi lain
         
-        const response = await axios.post('http://127.0.0.1:5000/predict/color', {
+        const response = await axios.post(`${base_url}/predict/color`, {
           image_url: publicUrl,
           model_url: modelUrl,  // Kirim model_url juga
         });
