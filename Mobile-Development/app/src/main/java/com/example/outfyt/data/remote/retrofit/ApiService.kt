@@ -35,6 +35,8 @@ interface ApiService {
     @POST("api/upload-image")
     suspend fun uploadImage(
         @Header("Authorization") accessToken: String,
+        @Part("gender") gender: String,
+        @Part("age") age: Int,
         @Part image: MultipartBody.Part
     ): Response<UploadResponse>
 
