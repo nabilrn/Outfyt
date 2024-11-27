@@ -86,6 +86,7 @@ const auth = async (req, res) => {
 
 const getCalendar = async (req, res) => {
   try {
+    console.log("ini req. ouath", req.oauth2Client)
     const calendar = google.calendar({ version: 'v3', auth: req.oauth2Client });
 
     const today = new Date();

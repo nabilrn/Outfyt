@@ -3,96 +3,110 @@ const { User } = require('./models/index.js');
 require("dotenv").config({ path: "../../.env" });
 // require("dotenv").config();
 
-const verifyGoogleToken = async (req, res, next) => {
+const verifyAccessToken = async (req, res, next) => {
   const accessToken = req.headers['authorization']?.split(' ')[1];
-  
+
   if (!accessToken) {
     return res.status(401).json({
       success: false,
-      error: 'Access token tidak ditemukan'
+      error: 'Access token tidak ditemukan',
     });
   }
 
   try {
+    // Inisialisasi OAuth2 Client
     const oauth2Client = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
       process.env.REDIRECT_URI
     );
 
-    // Verify the access token and get user info
+    // Verifikasi Access Token
     const tokenInfo = await oauth2Client.getTokenInfo(accessToken);
+
+    // Ambil data user berdasarkan googleId
     const user = await User.findOne({ where: { googleId: tokenInfo.sub } });
 
     if (!user) {
       return res.status(401).json({
         success: false,
-        error: 'User tidak ditemukan'
+        error: 'User tidak ditemukan',
       });
     }
 
-    // Set user and oauth client in request for use in route handlers
-    req.user = user;
-    req.oauth2Client = oauth2Client;
-    
-    // Set credentials including refresh token from database
+    // Set Access Token dan Refresh Token ke OAuth2 Client
     oauth2Client.setCredentials({
       access_token: accessToken,
-      refresh_token: user.refreshTokenOauth
+      refresh_token: user.refreshTokenOauth, // Refresh token dari database
     });
 
+    // Tambahkan user dan oauth2Client ke request
+    req.user = user;
+    req.oauth2Client = oauth2Client;
+
+    // Lanjut ke middleware berikutnya
     next();
   } catch (error) {
-    if (error.response?.status === 401) {
-      try {
-        // Get user info from the expired token
-        const decodedToken = JSON.parse(Buffer.from(accessToken.split('.')[1], 'base64').toString());
-        const user = await User.findOne({ 
-          where: { googleId: decodedToken.sub } 
-        });
-        
-        if (!user || !user.refreshTokenOauth) {
-          return res.status(401).json({
-            success: false,
-            error: 'Invalid refresh token'
-          });
-        }
-
-        const oauth2Client = new google.auth.OAuth2(
-          process.env.GOOGLE_CLIENT_ID,
-          process.env.GOOGLE_CLIENT_SECRET,
-          process.env.REDIRECT_URI
-        );
-
-        oauth2Client.setCredentials({
-          refresh_token: user.refreshTokenOauth
-        });
-
-        const { credentials } = await oauth2Client.refreshAccessToken();
-        
-        // Set refreshed credentials
-        req.user = user;
-        req.oauth2Client = oauth2Client;
-        req.newAccessToken = credentials.access_token;
-        
-        next();
-      } catch (refreshError) {
-        console.error('Error refreshing token:', refreshError);
-        return res.status(401).json({
-          success: false,
-          error: 'Failed to refresh access token'
-        });
-      }
-    } else {
-      console.error('Auth middleware error:', error);
-      return res.status(401).json({
-        success: false,
-        error: 'Authentication failed'
-      });
-    }
+    console.error('Error verifying access token:', error);
+    return res.status(401).json({
+      success: false,
+      error: 'Authentication failed',
+    });
   }
 };
 
 
+const refreshAccessToken = async (req, res) => {
+  const { googleId } = req.body; // Kirim googleId dari frontend untuk identifikasi user
 
-module.exports = { verifyGoogleToken };
+  if (!googleId) {
+    return res.status(400).json({
+      success: false,
+      error: 'Google ID diperlukan',
+    });
+  }
+
+  try {
+    const user = await User.findOne({ where: { googleId } });
+
+    if (!user || !user.refreshTokenOauth) {
+      return res.status(401).json({
+        success: false,
+        error: 'Refresh token tidak valid atau user tidak ditemukan',
+      });
+    }
+
+    const oauth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      process.env.REDIRECT_URI
+    );
+
+    oauth2Client.setCredentials({ refresh_token: user.refreshTokenOauth });
+
+    const { credentials } = await oauth2Client.refreshAccessToken();
+    const { access_token, expiry_date } = credentials;
+
+    // Update access token di database
+    user.accessToken = access_token;
+    user.tokenExpiryDate = expiry_date;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      accessToken: access_token,
+      expiryDate: expiry_date,
+    });
+  } catch (error) {
+    console.error('Error refreshing access token:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Failed to refresh access token',
+    });
+  }
+};
+
+module.exports = { 
+  verifyAccessToken,
+  refreshAccessToken
+};

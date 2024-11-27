@@ -1,8 +1,7 @@
-
 # API Documentation
 
 ## Overview
-This document outlines the API endpoints for a backend service handling user authentication, Google Calendar data, news scraping, chat with Gemini AI, and image uploads for personal color detection.
+This document provides comprehensive details about the backend API endpoints for a feature-rich application including user authentication, Google Calendar integration, AI chat, image upload, and personal color analysis.
 
 ---
 
@@ -26,7 +25,7 @@ Authenticate a user using Google OAuth tokens.
     "success": true,
     "user": {
       "googleId": "string",
-      "displayName": "string",
+      "displayName": "string", 
       "email": "string",
       "photoUrl": "string"
     },
@@ -38,6 +37,25 @@ Authenticate a user using Google OAuth tokens.
   {
     "success": false,
     "error": "Authentication failed"
+  }
+  ```
+
+### **POST** `api/refresh-token`
+Refresh an expired access token.
+
+#### Responses:
+- **200 OK**
+  ```json
+  {
+    "accessToken": "string",
+    "success": true
+  }
+  ```
+- **401 Unauthorized**
+  ```json
+  {
+    "success": false,
+    "error": "Invalid refresh token"
   }
   ```
 
@@ -56,8 +74,9 @@ Retrieve upcoming events from the user's primary Google Calendar.
   ```json
   {
     "success": true,
-    "events": [ ... ],
-    "newAccessToken": "string (optional)"
+    "events": [ 
+      // Array of calendar events
+    ]
   }
   ```
 - **500 Internal Server Error**
@@ -84,7 +103,15 @@ Fetch latest fashion-related articles.
   {
     "status": "success",
     "count": number,
-    "data": [ ... ]
+    "data": [
+      {
+        "title": "string",
+        "synopsis": "string",
+        "author": "string",
+        "link": "string",
+        "imageUrl": "string"
+      }
+    ]
   }
   ```
 - **500 Internal Server Error**
@@ -97,10 +124,10 @@ Fetch latest fashion-related articles.
 
 ---
 
-## Chat with Gemini AI
+## AI Chat with Gemini
 
 ### **POST** `api/chat/start`
-Start a new chat session with Gemini AI.
+Initialize a new chat session.
 
 #### Headers:
 - `Authorization`: Bearer `<AccessToken>`
@@ -115,7 +142,7 @@ Start a new chat session with Gemini AI.
   ```
 
 ### **POST** `api/chat/send`
-Send a message to Gemini AI and receive a response.
+Send a message and receive a response.
 
 #### Headers:
 - `Authorization`: Bearer `<AccessToken>`
@@ -134,13 +161,13 @@ Send a message to Gemini AI and receive a response.
     "status": "success",
     "data": {
       "reply": "string",
-      "promptFeedback": "string"
+      "promptFeedback": "object"
     }
   }
   ```
 
 ### **POST** `api/chat/stream`
-Stream real-time chat responses from Gemini AI.
+Stream real-time chat responses.
 
 #### Headers:
 - `Authorization`: Bearer `<AccessToken>`
@@ -153,11 +180,14 @@ Stream real-time chat responses from Gemini AI.
 ```
 
 #### Responses:
-- **Streamed Event Data**
+- **Streamed Server-Sent Events (SSE)**
+  - Chunks of response text
+  - `event: end` when complete
+  - `event: error` if something goes wrong
 
 ---
 
-## Image Upload for Personal Color
+## Image Upload
 
 ### **POST** `api/upload-image`
 Upload an image for personal color analysis.
@@ -166,20 +196,55 @@ Upload an image for personal color analysis.
 - `Authorization`: Bearer `<AccessToken>`
 
 #### Form Data:
-- `image`: (File) The image to be analyzed.
+- `image`: (File) Image to be analyzed
+- `gender`: User's gender
+- `age`: User's age
 
 #### Responses:
 - **200 OK**
   ```json
   {
-    "message": "File uploaded successfully",
-    "details": { ... }
+    "message": "Upload berhasil dan data diperbarui",
+    "url": "string",
+    "predicted_class": "string",
+    "gender": "string",
+    "age": "number",
+    "genderCategory": "string"
   }
   ```
 - **400 Bad Request**
   ```json
   {
-    "message": "No file uploaded"
+    "message": "Tidak ada file yang di-upload."
+  }
+  ```
+
+---
+
+## Personal Color Analysis
+
+### **GET** `api/personal-color`
+Retrieve personal color analysis results.
+
+#### Headers:
+- `Authorization`: Bearer `<AccessToken>`
+
+#### Responses:
+- **200 OK**
+  ```json
+  {
+    "faceImageUrl": "string",
+    "colorType": "string",
+    "genderCategory": "string",
+    "recommendedColors": [
+      "string" // List of color hex codes
+    ]
+  }
+  ```
+- **404 Not Found**
+  ```json
+  {
+    "error": "User not found"
   }
   ```
 
@@ -194,12 +259,14 @@ Verify the server is running.
 - **200 OK**
   ```json
   {
-    "message": "Server running successfully"
+    "message": "Awesome, Server running successfully"
   }
   ```
 
 ---
 
 ## Error Handling
-All endpoints respond with appropriate error codes and messages in case of failure.
+All endpoints respond with appropriate HTTP status codes and error messages in case of failure.
 
+## Authentication
+All endpoints (except `/api/test` and `/api/auth`) require a valid access token in the `Authorization` header.
