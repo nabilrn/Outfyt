@@ -14,7 +14,7 @@ app.use('/api', routes);
 app.get('/', (req, res) => {
   try {
     // Read the Markdown file
-    const markdownPath = 'API_DOCUMENTATION.md';
+    const markdownPath = 'API_Documentation.md';
     const markdownContent = fs.readFileSync(markdownPath, 'utf8');
 
     // Convert Markdown to HTML
