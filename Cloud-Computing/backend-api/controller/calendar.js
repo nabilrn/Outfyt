@@ -47,8 +47,8 @@ const getCalendar = async (req, res) => {
         existingSchedule.time = startTime ? startTime.split('T')[1] : null;
         existingSchedule.updatedAt = new Date();
 
-        // Cek apakah type masih "default" (belum diprediksi)
-        if (existingSchedule.type === 'default') {
+        // Cek apakah type masih kosong (belum diprediksi)
+        if (existingSchedule.type === null) {
           // Kirim ke prediksi
           const predictionResponse = await axios.post(`${base_url}/predict/activity`, {
             folder_url: `https://storage.googleapis.com/${bucket_name}/${folder_name}/`,
@@ -56,7 +56,7 @@ const getCalendar = async (req, res) => {
           });
 
           const predictedCategory = predictionResponse.data.predicted_category;
-          existingSchedule.type = predictedCategory || 'default';
+          existingSchedule.type = predictedCategory ;
         }
 
         await existingSchedule.save();
@@ -70,7 +70,7 @@ const getCalendar = async (req, res) => {
           desc: event.description || '',
           date: startDateTime ? startDateTime.split('T')[0] : null,
           time: startTime ? startTime.split('T')[1] : null,
-          type: 'default', // Masukkan "default" sebagai type pertama kali
+        // Masukkan "default" sebagai type pertama kali
           createdAt: new Date(),
           updatedAt: new Date(),
         });
