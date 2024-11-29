@@ -38,10 +38,10 @@ class HomeViewModel : ViewModel() {
                     response.isSuccessful && response.body()?.success == true -> {
                         val tokenResponse = response.body()!!
                         val newAccessToken = tokenResponse.accessToken
+                        Log.d("HomeViewModel", "New Token: $newAccessToken")
 
                         if (!newAccessToken.isNullOrEmpty()) {
                             LoginPreferences.saveAccessToken(context, newAccessToken)
-                            _uploadStatus.postValue(context.getString(R.string.token_refreshed_successfully))
                             _isLoading.value = false
                             callback?.invoke(true)
                         } else {
