@@ -49,8 +49,13 @@ object LoginPreferences {
         prefs.edit().putString(KEY_ACCESS_TOKEN, accessToken).apply()
     }
 
+    fun saveGoogleId(context: Context, googleId: String) {
+        val sharedPref = context.getSharedPreferences(KEY_GOOGLE_ID, Context.MODE_PRIVATE)
+        sharedPref.edit().putString(KEY_GOOGLE_ID, googleId).apply()
+    }
+
     fun getGoogleId(context: Context): String? {
         val sharedPref = context.getSharedPreferences(KEY_GOOGLE_ID, Context.MODE_PRIVATE)
-        return sharedPref.getString("GOOGLE_ID", null)
+        return sharedPref.getString(KEY_GOOGLE_ID, null)
     }
 }

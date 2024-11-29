@@ -70,4 +70,6 @@
     <string name="invalid_color">Invalid Color</string>
     <string name="hasil_analisa">Hasil Analisis Warna mu!</string>
     <string name="back_to_home">Back to Home</string>
+    <string name="google_calendar">https://www.googleapis.com/auth/calendar</string>
+    <string name="failed_to_fetch_calendar_data">Failed to fetch calendar data</string>
 </resources>

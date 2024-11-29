@@ -27,6 +27,11 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -49,8 +54,7 @@ class NewsFragment : Fragment() {
         })
 
         newsViewModel.fetchNewsData()
-
-        return binding.root
+        observeViewModel()
     }
 
     private fun openNewsLink(link: String) {
@@ -59,6 +63,20 @@ class NewsFragment : Fragment() {
             startActivity(intent)
         } catch (_: Exception) {
             Toast.makeText(context, getString(R.string.cannot_open_link), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun observeViewModel() {
+        newsViewModel.uploadStatus.observe(viewLifecycleOwner) { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+
+        newsViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
         }
     }
 }

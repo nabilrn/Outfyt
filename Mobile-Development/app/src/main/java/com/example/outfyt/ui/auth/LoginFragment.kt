@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
             .requestServerAuthCode(getString(R.string.web_client_id))
-            .requestScopes(Scope("https://www.googleapis.com/auth/calendar"))
+            .requestScopes(Scope(getString(R.string.google_calendar)))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
@@ -89,7 +89,9 @@ class LoginFragment : Fragment() {
             if (response?.success == true) {
                 lifecycleScope.launch {
                     LoginPreferences.saveLoginState(requireContext(), true, response.user?.displayName, response.accessToken, response.user)
+                    LoginPreferences.saveGoogleId(requireContext(), response.user?.googleId ?: "")
                     Log.d("SharedPref", "Login state saved")
+                    Log.d("SharedPref", "User: ${response.user?.googleId}")
                 }
                 val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
                 findNavController().navigate(action)
