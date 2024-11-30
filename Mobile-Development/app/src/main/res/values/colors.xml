@@ -12,4 +12,6 @@
     <color name="darkbrown">#B17513</color>
     <color name="user_message_background">#CFC1A4</color>
     <color name="gemini_message_background">#FFFFFF</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="ripple_color">#1A3498DB</color>
 </resources>

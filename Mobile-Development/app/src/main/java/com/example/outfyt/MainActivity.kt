@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.navigation_form, R.id.navigation_result ->
                         hideBottomNavigation()
                     R.id.navigation_gemini_chat ->
-                        hideBottomNavigation()
+                        hideBottomNavigationAndTopAppBar()
                     else -> showBottomNavigationAndTopAppBar()
                 }
             }
