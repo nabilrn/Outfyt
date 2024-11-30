@@ -30,11 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Outfyt"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.geminichat.GeminiChatActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.Outfyt"
-            android:exported="false" />
+
 
         <meta-data
             android:name="com.google.android.gms.client_id"

@@ -1,6 +1,5 @@
 package com.example.outfyt.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.outfyt.databinding.FragmentHomeBinding
 import com.example.outfyt.R
-import com.example.outfyt.ui.geminichat.GeminiChatActivity
 
 class HomeFragment : Fragment() {
 
@@ -59,11 +57,11 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-
         binding.fab.setOnClickListener {
-            val intent = Intent(requireContext(), GeminiChatActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_navigation_home_to_navigation_gemini_chat)
         }
+
+
     }
 
 }

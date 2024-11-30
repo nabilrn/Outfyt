@@ -3,7 +3,7 @@
     <style name="Theme.Outfyt" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/coklatTua</item>
-        <item name="colorPrimaryVariant">#CD9D49</item>
+        <item name="colorPrimaryVariant">@color/darkbrown</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/coklat</item>

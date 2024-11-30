@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
                         hideBottomNavigationAndTopAppBar()
                     R.id.navigation_form, R.id.navigation_result ->
                         hideBottomNavigation()
+                    R.id.navigation_gemini_chat ->
+                        hideBottomNavigation()
                     else -> showBottomNavigationAndTopAppBar()
                 }
             }
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun hideBottomNavigation() {

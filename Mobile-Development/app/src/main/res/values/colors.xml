@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="coklat">#CFC1A4</color>
     <color name="coklatTua">#CD9B4A</color>
+    <color name="darkbrown">#B17513</color>
     <color name="user_message_background">#CFC1A4</color>
     <color name="gemini_message_background">#FFFFFF</color>
 </resources>
