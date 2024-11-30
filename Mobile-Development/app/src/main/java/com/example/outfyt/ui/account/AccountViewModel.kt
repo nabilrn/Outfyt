@@ -22,6 +22,7 @@ class AccountViewModel : ViewModel() {
         _displayName.value = name
     }
 
+
     fun logout(context: Context) {
         val currentAccessToken = LoginPreferences.getAccessToken(context)
 

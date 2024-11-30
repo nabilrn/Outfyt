@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.activity)
+    implementation (libs.hdodenhof.circleimageview)
     ksp(libs.androidx.room.compiler)
 
 

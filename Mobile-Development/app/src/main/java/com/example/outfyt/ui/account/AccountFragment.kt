@@ -9,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.outfyt.R
 import com.example.outfyt.data.local.LoginPreferences
 import com.example.outfyt.databinding.FragmentAccountBinding
@@ -50,6 +51,14 @@ class AccountFragment : Fragment() {
 
         val displayName = LoginPreferences.getDisplayName(requireContext()) ?: getString(R.string.welcome_guest)
         accountViewModel.setDisplayName(displayName)
+
+        val photoUrl = LoginPreferences.getPhotoUrl(requireContext())
+        photoUrl?.let {
+            Glide.with(this)
+                .load(it)
+                .placeholder(R.drawable.ic_image)
+                .into(binding.profileImage)
+        }
     }
 
     @Deprecated("Deprecated in Java")

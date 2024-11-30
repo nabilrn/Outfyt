@@ -13,19 +13,19 @@ object LoginPreferences {
     private const val KEY_USER_DISPLAY_NAME = "user_display_name"
     private const val KEY_ACCESS_TOKEN = "access_token"
     private const val KEY_GOOGLE_ID = "google_id"
+    private const val KEY_PHOTO_URL = "photo_url"
 
-    fun saveLoginState(context: Context, isLoggedIn: Boolean, displayName: String?, accessToken:
-    String?, userInfo: UserInfo?) {
+    fun saveLoginState(context: Context, isLoggedIn: Boolean, displayName: String?, accessToken: String?, userInfo: UserInfo?) {
         val sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putBoolean(KEY_IS_LOGGED_IN, isLoggedIn)
         editor.putString(KEY_USER_DISPLAY_NAME, displayName)
         editor.putString(KEY_ACCESS_TOKEN, accessToken)
         editor.putString(KEY_GOOGLE_ID, userInfo?.googleId)
+        editor.putString(KEY_PHOTO_URL, userInfo?.photoUrl)
         editor.apply()
 
-        Log.d("LoginPreferences", "Login state saved: $isLoggedIn, User: $displayName, " +
-                "AccessToken: $accessToken, GoogleId: ${userInfo?.googleId}")
+        Log.d("LoginPreferences", "Login state saved: $isLoggedIn, User: $displayName, AccessToken: $accessToken, GoogleId: ${userInfo?.googleId}, PhotoUrl: ${userInfo?.photoUrl}")
     }
 
     fun isLoggedIn(context: Context): Flow<Boolean> {
@@ -42,6 +42,11 @@ object LoginPreferences {
     fun getAccessToken(context: Context): String? {
         val sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
         return sharedPreferences.getString(KEY_ACCESS_TOKEN, null)
+    }
+
+    fun getPhotoUrl(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+        return sharedPreferences.getString(KEY_PHOTO_URL, null)
     }
 
     fun saveAccessToken(context: Context, accessToken: String) {
