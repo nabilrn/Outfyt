@@ -55,6 +55,8 @@ This document provides an overview of our cloud infrastructure, including the se
 
 ## Architecture Diagram
 
+![Outfyt Google Cloud Architecture](https://github.com/user-attachments/assets/04c5fbf1-5953-4aae-bb79-5295f7b2d4de)
+
 Below is a high-level overview of the architecture:
 
 1. **User Authentication**:  
