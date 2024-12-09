@@ -37,5 +37,6 @@ router.post("/chat/send",verifyAccessToken, send);
 router.post("/chat/stream",verifyAccessToken, stream);
 router.post("/recommendation",verifyAccessToken, recommendation);
 router.post("/recommendation/like",verifyAccessToken, addLike);
+router.post("/rekomendasi",verifyAccessToken, addLike);
 
 module.exports = router;
