@@ -76,4 +76,8 @@
     <string name="iv_home">outfyt</string>
     <string name="example_account">silid@gmail.com\t</string>
     <string name="read_more">Read More</string>
+    <string name="RecomendationResult">Recomendation Result</string>
+    <string name="example_image">Example Image</string>
+    <string name="item_image">Item Image</string>
+    <string name="no_recommendations_found">No recommendations found</string>
 </resources>

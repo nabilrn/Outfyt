@@ -86,7 +86,7 @@ class ResultFragment : Fragment() {
             try {
                 colorCircle.setBackgroundColor(android.graphics.Color.parseColor(color.hexCode))
                 hexTextView.text = color.hexCode
-            } catch (e: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
                 hexTextView.text = getString(R.string.invalid_color)
             }
 
