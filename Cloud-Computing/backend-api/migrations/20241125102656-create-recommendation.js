@@ -6,7 +6,8 @@ module.exports = {
       recommendationId: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.STRING
+        autoIncrement: true,
+        type: Sequelize.INTEGER
       },
       scheduleId: {
         type: Sequelize.STRING,
