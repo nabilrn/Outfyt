@@ -6,7 +6,7 @@ require("dotenv").config({ path: "../../.env" });
 const axios = require('axios');
 const base_url = process.env.FLASK_BASE_URL;
 const bucket_name= process.env.BUCKET_NAME;
-
+const folder_name= process.env.FOLDER_ACTIVITY_MODEL;
 
 
 // require("dotenv").config();
@@ -51,7 +51,7 @@ const getCalendar = async (req, res) => {
         if (existingSchedule.type === null) {
           // Kirim ke prediksi
           const predictionResponse = await axios.post(`${base_url}/predict/activity`, {
-            folder_url: `https://storage.googleapis.com/${bucket_name}/model-activity/`,
+            folder_url: `https://storage.googleapis.com/${bucket_name}/${folder_name}/`,
             input_text: event.summary,
           });
 

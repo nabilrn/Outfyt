@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
                         hideBottomNavigation()
                     R.id.navigation_gemini_chat ->
                         hideBottomNavigationAndTopAppBar()
+                    R.id.navigation_recommendation_result ->
+                        hideBottomNavigation()
                     else -> showBottomNavigationAndTopAppBar()
                 }
             }

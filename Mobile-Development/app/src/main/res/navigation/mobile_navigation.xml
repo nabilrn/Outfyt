@@ -39,7 +39,15 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.outfyt.ui.schedule.ScheduleFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_schedule" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_navigation_recommendation_result"
+            app:destination="@id/navigation_recommendation_result">
+            <argument
+                android:name="eventId"
+                app:argType="string" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -88,6 +96,13 @@
         android:name="com.example.outfyt.ui.geminichat.GeminiChatFragment"
         android:label="@string/Geminichat"
         tools:layout="@layout/fragment_gemini_chat" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_recommendation_result"
+        android:name="com.example.outfyt.ui.recommendation.RecommendResultFragment"
+        android:label="@string/RecomendationResult"
+        tools:layout="@layout/fragment_recommend_result" >
 
     </fragment>
 
