@@ -230,7 +230,7 @@ const addLike = async (req, res) => {
 
     // Berikan respons
     res.status(200).json({
-      message: 'Like added successfullyy',
+      message: 'Like added successfully',
       data: likeResponse.data
     });
 
