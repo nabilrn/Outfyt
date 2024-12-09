@@ -43,6 +43,13 @@ Authenticate a user using Google OAuth tokens.
 ### **POST** `api/refresh-token`
 Refresh an expired access token.
 
+#### Request Body:
+```json
+{
+  "googleId": "string"
+}
+```
+
 #### Responses:
 - **200 OK**
   ```json
@@ -245,6 +252,103 @@ Retrieve personal color analysis results.
   ```json
   {
     "error": "User not found"
+  }
+  ```
+
+---
+## Product Recommendation
+
+### **POST** `api/recommendation`
+Generate personalized product recommendations based on a specific schedule.
+
+#### Headers:
+- `Authorization`: Bearer `<AccessToken>`
+
+#### Request Body:
+```json
+{
+  "scheduleId": "string"
+}
+```
+
+#### Responses:
+- **200 OK**
+  ```json
+  {
+    "Tops": [
+      {
+        "recommendationId": "string",
+        "name": "string",
+        "imageUrl": "string",
+        "productLink": "string"
+      }
+    ],
+    "Bottoms": [
+      // Similar structure to Tops
+    ],
+    "Accessories": [
+      // Similar structure to Tops
+    ]
+  }
+  ```
+- **400 Bad Request**
+  ```json
+  {
+    "error": "Schedule ID is required"
+  }
+  ```
+- **404 Not Found**
+  ```json
+  {
+    "error": "User not found" / "Schedule not found"
+  }
+  ```
+- **500 Internal Server Error**
+  ```json
+  {
+    "error": "An error occurred while processing the recommendation",
+    "details": "string"
+  }
+  ```
+
+### **POST** `api/recommendation/like`
+Add a like to a specific product recommendation.
+
+#### Headers:
+- `Authorization`: Bearer `<AccessToken>`
+
+#### Request Body:
+```json
+{
+  "recommendationId": "string"
+}
+```
+
+#### Responses:
+- **200 OK**
+  ```json
+  {
+    "message": "Like added successfully",
+    "data": "object"
+  }
+  ```
+- **400 Bad Request**
+  ```json
+  {
+    "error": "Recommendation ID is required"
+  }
+  ```
+- **404 Not Found**
+  ```json
+  {
+    "error": "User not found" / "Recommendation not found"
+  }
+  ```
+- **500 Internal Server Error**
+  ```json
+  {
+    "error": "An error occurred while processing the like",
+    "details": "string"
   }
   ```
 
