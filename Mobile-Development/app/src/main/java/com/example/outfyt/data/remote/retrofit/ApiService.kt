@@ -10,6 +10,8 @@ import com.example.outfyt.data.remote.response.LogoutRequest
 import com.example.outfyt.data.remote.response.LogoutResponse
 import com.example.outfyt.data.remote.response.NewsResponse
 import com.example.outfyt.data.remote.response.PersonalColorResponse
+import com.example.outfyt.data.remote.response.RecommendationRequest
+import com.example.outfyt.data.remote.response.RecommendationResponse
 import com.example.outfyt.data.remote.response.RefreshTokenRequest
 import com.example.outfyt.data.remote.response.TokenResponse
 import com.example.outfyt.data.remote.response.UploadResponse
@@ -72,12 +74,13 @@ interface ApiService {
     suspend fun getPersonalColor(
         @Header("Authorization") accessToken: String
     ): Response<PersonalColorResponse>
-//
-//    @POST("api/chat/stream")
-//    suspend fun streamMessage(
-//        @Header("Authorization") accessToken: String,
-//        @Body message: ChatMessageRequest
-//    ): Response<StreamedEventData>
+
+    @POST("api/recommendation")
+    suspend fun getRecommendation(
+        @Header("Authorization") accessToken: String,
+        @Body request: RecommendationRequest
+    ): Response<RecommendationResponse>
+
 
 
 }
