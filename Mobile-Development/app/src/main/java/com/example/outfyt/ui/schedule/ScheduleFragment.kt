@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.outfyt.databinding.FragmentScheduleBinding
@@ -37,7 +38,10 @@ class ScheduleFragment : Fragment() {
         scheduleViewModel.events.observe(viewLifecycleOwner, Observer { events ->
             binding.progressBar.visibility = View.GONE
             if (events != null) {
-                calendarAdapter = CalendarAdapter(events)
+                calendarAdapter = CalendarAdapter(events) { scheduleId ->
+                    val action = ScheduleFragmentDirections.actionNavigationDashboardToNavigationRecommendationResult(scheduleId)
+                    findNavController().navigate(action)
+                }
                 recyclerView.adapter = calendarAdapter
             } else {
                 Toast.makeText(requireContext(), getString(R.string.no_events_found), Toast.LENGTH_SHORT).show()
