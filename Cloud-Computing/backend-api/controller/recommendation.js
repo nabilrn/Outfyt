@@ -247,7 +247,7 @@ const addLike = async (req, res) => {
 
     // Error umum
     res.status(500).json({ 
-      error: 'An error occurred while processing the like',
+      error: 'An error occurred while processing the like.',
       details: error.message 
     });
   }
