@@ -1,7 +1,7 @@
-const { Storage } = require('@google-cloud/storage');
-const axios = require('axios');  // Tambahkan axios untuk melakukan request ke endpoint /predict/color
-const path = require('path');
-const { User } = require('../models');  // Sesuaikan dengan model yang kamu gunakan
+const { Storage } = require("@google-cloud/storage");
+const axios = require("axios"); // Tambahkan axios untuk melakukan request ke endpoint /predict/color
+const path = require("path");
+const { User } = require("../models"); // Sesuaikan dengan model yang kamu gunakan
 require("dotenv").config({ path: "../../../.env" });
 const base_url = process.env.FLASK_BASE_URL;
 
@@ -18,17 +18,19 @@ const uploadImage = async (req, res) => {
     console.log(bucketName);
 
     if (!req.file) {
-      return res.status(400).send('Tidak ada file yang di-upload.');
+      return res.status(400).send("Tidak ada file yang di-upload.");
     }
 
     // Memastikan gender dan age ada di dalam request body
     const { gender, age } = req.body;
     if (!gender || !age) {
-      return res.status(400).send('Gender dan umur harus disertakan.');
+      return res.status(400).send("Gender dan umur harus disertakan.");
     }
 
     // Menyimpan file di dalam folder 'gambar' di bucket
-    const fileName = `image/${Date.now()}_${path.basename(req.file.originalname)}`;
+    const fileName = `image/${Date.now()}_${path.basename(
+      req.file.originalname
+    )}`;
     const blob = storage.bucket(bucketName).file(fileName);
     const blobStream = blob.createWriteStream({
       resumable: false,
@@ -36,53 +38,55 @@ const uploadImage = async (req, res) => {
     });
 
     // Error handling di dalam `blobStream`
-    blobStream.on('error', (err) => {
-      console.error('Error saat meng-upload file ke Cloud Storage:', err);
-      res.status(500).send('Gagal meng-upload file');
+    blobStream.on("error", (err) => {
+      console.error("Error saat meng-upload file ke Cloud Storage:", err);
+      res.status(500).send("Gagal meng-upload file");
     });
 
-    blobStream.on('finish', async () => {
+    blobStream.on("finish", async () => {
       const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
-      console.log('Upload berhasil, URL:', publicUrl);
+      console.log("Upload berhasil, URL:", publicUrl);
 
       try {
         // Menentukan genderCategory berdasarkan umur dan jenis kelamin
-        let genderCategory = '';
+        let genderCategory = "";
         const ageNumber = parseInt(age);
 
         if (ageNumber < 18) {
-          genderCategory = gender === 'male' ? 'boy' : 'girl';
+          genderCategory = gender === "male" ? "boy" : "girl";
         } else {
-          genderCategory = gender === 'male' ? 'man' : 'woman';
+          genderCategory = gender === "male" ? "men" : "women";
         }
 
         // Kirim request ke /predict/color dengan image_url dan model_url
         const modelUrl = `https://storage.googleapis.com/${bucketName}/model-color/model.h5`; // Gantilah ini jika model berada di lokasi lain
-        
+
         const response = await axios.post(`${base_url}/predict/color`, {
           image_url: publicUrl,
-          model_url: modelUrl,  // Kirim model_url juga
+          model_url: modelUrl, // Kirim model_url juga
         });
 
         const predictedClass = response.data.predicted_class;
 
         // Update data pengguna dengan hasil prediksi dan informasi genderCategory
-        const user = await User.findOne({ where: { googleId: req.user.googleId } });
+        const user = await User.findOne({
+          where: { googleId: req.user.googleId },
+        });
 
         if (user) {
           // Perbarui kolom colorType, faceImageUrl, gender, genderCategory
           user.colorType = predictedClass;
           user.faceImageUrl = publicUrl;
           user.gender = gender;
-          user.genderCategory = genderCategory;  // Menyimpan genderCategory
+          user.genderCategory = genderCategory; // Menyimpan genderCategory
           await user.save();
-          console.log('User data updated successfully');
+          console.log("User data updated successfully");
         } else {
-          console.log('User not found');
+          console.log("User not found");
         }
 
         res.status(200).send({
-          message: 'Upload berhasil dan data diperbarui',
+          message: "Upload berhasil dan data diperbarui",
           url: publicUrl,
           predicted_class: predictedClass,
           gender: gender, // Kirim genderCategory dalam response
@@ -90,17 +94,16 @@ const uploadImage = async (req, res) => {
           genderCategory: genderCategory, // Kirim genderCategory dalam response
         });
       } catch (error) {
-        console.error('Error saat mengirim request ke /predict/color:', error);
-        res.status(500).send('Terjadi kesalahan saat mendapatkan prediksi');
+        console.error("Error saat mengirim request ke /predict/color:", error);
+        res.status(500).send("Terjadi kesalahan saat mendapatkan prediksi");
       }
     });
 
     // Akhiri stream dengan buffer file yang di-upload
     blobStream.end(req.file.buffer);
-
   } catch (error) {
-    console.error('Terjadi kesalahan pada proses upload:', error);
-    res.status(500).send('Terjadi kesalahan saat meng-upload file');
+    console.error("Terjadi kesalahan pada proses upload:", error);
+    res.status(500).send("Terjadi kesalahan saat meng-upload file");
   }
 };
 
