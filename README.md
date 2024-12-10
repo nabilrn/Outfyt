@@ -1,4 +1,4 @@
-Your repository README for the Bangkit 2024 Capstone Project "Outfyt" looks detailed and informative. Below, I've incorporated your request to use [Skillicons.dev](https://skillicons.dev) for the tech stack badges and polished the structure for readability.
+
 
 ---
 
