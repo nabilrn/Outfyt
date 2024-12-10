@@ -1,7 +1,4 @@
 
-
----
-
 # ![Outfyt Logo](https://github.com/user-attachments/assets/23cfd871-60ed-4fdf-98a2-65fbe87a6901)
 
 ## Bangkit 2024 Capstone Team: Outfyt's Team (C242-PS352)
@@ -84,5 +81,3 @@ Welcome to the repository for **Outfyt**, a Bangkit 2024 Capstone Project. Our t
    Simplifies dependency injection.
 
 ---
-
-This structure ensures that your README is both professional and user-friendly. Let me know if you'd like further adjustments or additions! 😊
