@@ -37,7 +37,7 @@ class CalendarAdapter(
         holder.eventEnd.text = event.end.dateTime
 
         holder.itemView.setOnClickListener {
-            onItemClick(event.iCalUID)
+            onItemClick(event.id) // Ensure scheduleId is passed here
         }
     }
 

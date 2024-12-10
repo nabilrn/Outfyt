@@ -13,6 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.outfyt.databinding.FragmentScheduleBinding
 import com.example.outfyt.R
+import com.example.outfyt.data.local.LoginPreferences
+import com.example.outfyt.data.remote.response.RecommendationRequest
+import com.example.outfyt.data.remote.retrofit.ApiConfig
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ScheduleFragment : Fragment() {
 
@@ -39,8 +46,7 @@ class ScheduleFragment : Fragment() {
             binding.progressBar.visibility = View.GONE
             if (events != null) {
                 calendarAdapter = CalendarAdapter(events) { scheduleId ->
-                    val action = ScheduleFragmentDirections.actionNavigationDashboardToNavigationRecommendationResult(scheduleId)
-                    findNavController().navigate(action)
+                    fetchRecommendations(scheduleId)
                 }
                 recyclerView.adapter = calendarAdapter
             } else {
@@ -69,6 +75,34 @@ class ScheduleFragment : Fragment() {
             } else {
                 binding.progressBar.visibility = View.GONE
             }
+        }
+    }
+
+    private fun fetchRecommendations(scheduleId: String) {
+        val accessToken = LoginPreferences.getAccessToken(requireContext())
+        if (accessToken != null) {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val response = ApiConfig.api.getRecommendation(
+                        "Bearer $accessToken",
+                        RecommendationRequest(scheduleId)
+                    )
+                    withContext(Dispatchers.Main) {
+                        if (response.isSuccessful) {
+                            val action = ScheduleFragmentDirections.actionNavigationDashboardToNavigationRecommendationResult(scheduleId)
+                            findNavController().navigate(action)
+                        } else {
+                            Toast.makeText(requireContext(), "Failed to fetch recommendations", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(requireContext(), "Access Token is null", Toast.LENGTH_SHORT).show()
         }
     }
 }

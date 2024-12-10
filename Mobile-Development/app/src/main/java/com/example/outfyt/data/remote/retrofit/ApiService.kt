@@ -6,6 +6,8 @@ import com.example.outfyt.data.remote.response.CalendarResponse
 import com.example.outfyt.data.remote.response.ChatMessageRequest
 import com.example.outfyt.data.remote.response.ChatMessageResponse
 import com.example.outfyt.data.remote.response.GenericResponse
+import com.example.outfyt.data.remote.response.LikeRequest
+import com.example.outfyt.data.remote.response.LikeResponse
 import com.example.outfyt.data.remote.response.LogoutRequest
 import com.example.outfyt.data.remote.response.LogoutResponse
 import com.example.outfyt.data.remote.response.NewsResponse
@@ -80,6 +82,12 @@ interface ApiService {
         @Header("Authorization") accessToken: String,
         @Body request: RecommendationRequest
     ): Response<RecommendationResponse>
+
+    @POST("api/recommendation/like")
+    suspend fun addLike(
+        @Header("Authorization") accessToken: String,
+        @Body request: LikeRequest
+    ): Response<LikeResponse>
 
 
 

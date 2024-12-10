@@ -18,9 +18,10 @@ class RecommendResultViewModel(private val apiService: ApiService) : ViewModel()
     fun fetchRecommendations(scheduleId: String, accessToken: String) {
         viewModelScope.launch {
             try {
-                Log.d("RecommendResultViewModel", "Access Token: $accessToken")
+                Log.d("RecommendResultViewModel", "Fetching recommendations with Schedule ID: $scheduleId and Access Token: $accessToken")
                 val response = apiService.getRecommendation("Bearer $accessToken", RecommendationRequest(scheduleId))
                 if (response.isSuccessful) {
+                    Log.d("RecommendResultViewModel", "Response: ${response.body()}")
                     _recommendations.postValue(response.body())
                 } else {
                     Log.e("RecommendResultViewModel", "Error fetching recommendations: ${response.code()} - ${response.message()}")

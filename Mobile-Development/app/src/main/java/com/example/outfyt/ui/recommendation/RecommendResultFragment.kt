@@ -1,9 +1,11 @@
 package com.example.outfyt.ui.recommendation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,6 +23,7 @@ class RecommendResultFragment : Fragment() {
     private lateinit var viewModel: RecommendResultViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecommendationAdapter
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,28 +42,42 @@ class RecommendResultFragment : Fragment() {
         val scheduleId = arguments?.getString("scheduleId")
         val accessToken = LoginPreferences.getAccessToken(requireContext())
 
-        if (scheduleId != null && accessToken != null) {
-            viewModel.fetchRecommendations(scheduleId, accessToken)
-        }
+        Log.d("RecommendResultFragment", "Schedule ID: $scheduleId")
+        Log.d("RecommendResultFragment", "Access Token: $accessToken")
 
+        progressBar = view.findViewById(R.id.progressBar)
         recyclerView = view.findViewById(R.id.rvRecommendations)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.recommendations.observe(viewLifecycleOwner, Observer { recommendationResponse ->
-            if (recommendationResponse != null) {
-                val items = mutableListOf<Item>()
-                items.addAll(recommendationResponse.topwear)
-                items.addAll(recommendationResponse.bottomwear)
-                items.addAll(recommendationResponse.sandal)
-                items.addAll(recommendationResponse.headwear)
-                items.addAll(recommendationResponse.flipFlops)
-                items.addAll(recommendationResponse.shoes)
+        if (scheduleId != null && accessToken != null) {
+            showLoading(true)
+            viewModel.fetchRecommendations(scheduleId, accessToken)
+        } else {
+            Log.e("RecommendResultFragment", "Schedule ID or Access Token is null")
+        }
 
-                adapter = RecommendationAdapter(items)
+        viewModel.recommendations.observe(viewLifecycleOwner, Observer { recommendationResponse ->
+            showLoading(false)
+            if (recommendationResponse != null) {
+                Log.d("RecommendResultFragment", "Received recommendations: $recommendationResponse")
+                val items = mutableListOf<Item>()
+                recommendationResponse.topwear?.let { items.addAll(it) }
+                recommendationResponse.bottomwear?.let { items.addAll(it) }
+                recommendationResponse.sandal?.let { items.addAll(it) }
+                recommendationResponse.headwear?.let { items.addAll(it) }
+                recommendationResponse.flipFlops?.let { items.addAll(it) }
+                recommendationResponse.shoes?.let { items.addAll(it) }
+
+                adapter = RecommendationAdapter(items, accessToken.toString())
                 recyclerView.adapter = adapter
             } else {
                 view.findViewById<TextView>(R.id.tvEmptyState).visibility = View.VISIBLE
+                Log.e("RecommendResultFragment", "Recommendation response is null")
             }
         })
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

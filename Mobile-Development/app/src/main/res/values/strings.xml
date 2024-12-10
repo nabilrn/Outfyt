@@ -80,4 +80,8 @@
     <string name="example_image">Example Image</string>
     <string name="item_image">Item Image</string>
     <string name="no_recommendations_found">No recommendations found</string>
+    <string name="link_product">https://amazon product example</string>
+    <string name="like">Like</string>
+    <string name="save">Save</string>
+    <string name="visit_link_product">See Product</string>
 </resources>

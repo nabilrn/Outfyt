@@ -43,9 +43,7 @@
         <action
             android:id="@+id/action_navigation_dashboard_to_navigation_recommendation_result"
             app:destination="@id/navigation_recommendation_result">
-            <argument
-                android:name="eventId"
-                app:argType="string" />
+
         </action>
     </fragment>
 
@@ -103,6 +101,9 @@
         android:name="com.example.outfyt.ui.recommendation.RecommendResultFragment"
         android:label="@string/RecomendationResult"
         tools:layout="@layout/fragment_recommend_result" >
+        <argument
+            android:name="scheduleId"
+            app:argType="string" />
 
     </fragment>
 
