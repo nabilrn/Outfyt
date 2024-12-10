@@ -6,6 +6,7 @@ const { getCalendar } = require("./controller/calendar.js");
 const { start, send, stream } = require("./controller/chat.js");
 const {uploadImage}= require("./controller/uploadImage.js")
 const {personalColor}= require("./controller/personalColor.js")
+const {recommendation, addLike}= require("./controller/recommendation.js")
 const multer = require("multer");
 const router = express.Router();
 

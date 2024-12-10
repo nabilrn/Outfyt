@@ -53,7 +53,7 @@ const uploadImage = async (req, res) => {
         if (ageNumber < 18) {
           genderCategory = gender === 'male' ? 'boy' : 'girl';
         } else {
-          genderCategory = gender === 'male' ? 'man' : 'woman';
+          genderCategory = gender === 'male' ? 'men' : 'women';
         }
 
         // Kirim request ke /predict/color dengan image_url dan model_url

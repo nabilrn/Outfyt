@@ -112,6 +112,7 @@ const recommendation = async (req, res) => {
     // Ambil rekomendasi dari API
     const apiResponse = await axios.post(`${BASE_URL}/get_recommendation`, recommendationParams);
     const recommendations = apiResponse.data.recommendations.Outfit;
+    console.log(apiResponse.data);
 
     // Hapus rekomendasi sebelumnya
     await Recommendation.destroy({
