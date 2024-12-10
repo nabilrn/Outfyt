@@ -83,7 +83,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server berhasill berjalan di http://localhost:${port}`);
+  console.log(`Server berhasil berjalan di http://localhost:${port}`);
 });
 
 module.exports = app;
