@@ -37,7 +37,6 @@ data class Item(
 	@field:SerializedName("recommendationId")
 	val recommendationId: Int
 
-
 )
 
 data class RecommendationRequest(

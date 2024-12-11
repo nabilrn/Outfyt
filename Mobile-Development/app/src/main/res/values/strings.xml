@@ -2,7 +2,7 @@
     <string name="app_name">Outfyt</string>
     <string name="title_home">Home</string>
     <string name="title_form">Form</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dashboard">Schedule</string>
     <string name="title_notifications">News</string>
     <string name="title_result">Result</string>
     <string name="Account">Account</string>
@@ -84,4 +84,6 @@
     <string name="like">Like</string>
     <string name="save">Save</string>
     <string name="visit_link_product">See Product</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="no_saved_recommendations_found">You don\'t have any saved recommendations</string>
 </resources>
