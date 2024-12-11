@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/favorite/baseline_favorite_24.xml" />
+                                      <entry key="url" value="file:/C:/Users/Khalied%20Maturino/AppData/Local/Android/Sdk/icons/material/materialicons/delete_outline/baseline_delete_outline_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,9 +28,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="c70303" />
-                            <entry key="opacityPercent" value="43" />
-                            <entry key="outputName" value="ic_favorite_filled" />
+                            <entry key="outputName" value="ic_delete" />
                             <entry key="sourceFile" value="C:\Bangkit_Android_Dev\CEPSTONE\Outfyt" />
                           </map>
                         </option>

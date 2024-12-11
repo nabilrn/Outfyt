@@ -107,4 +107,10 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_saved_recommendation"
+        android:name="com.example.outfyt.ui.savedrec.SavedRecommendationFragment"
+        android:label="@string/title_favorite"
+        tools:layout="@layout/fragment_saved_recommendation" />
+
 </navigation>

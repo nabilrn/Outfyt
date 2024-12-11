@@ -62,7 +62,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation (libs.hdodenhof.circleimageview)
     ksp(libs.androidx.room.compiler)
-
+    implementation (libs.androidx.room.ktx)
 
     implementation(libs.play.services.location)
     implementation(libs.play.services.auth)
