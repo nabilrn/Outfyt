@@ -86,4 +86,8 @@
     <string name="visit_link_product">See Product</string>
     <string name="title_favorite">Favorite</string>
     <string name="no_saved_recommendations_found">You don\'t have any saved recommendations</string>
+    <string name="daily_reminder_channel_id">daily_reminder_channel</string>
+    <string name="daily_reminder_channel_name">Daily Reminder</string>
+    <string name="notification_title">Outfyt Reminder</string>
+    <string name="notification_text">Don\'t forget to check your Outfyt recommendation today</string>
 </resources>

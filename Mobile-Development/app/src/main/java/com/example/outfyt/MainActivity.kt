@@ -1,5 +1,9 @@
 package com.example.outfyt
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +12,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.outfyt.databinding.ActivityMainBinding
+import com.example.outfyt.utils.ReminderReceiver
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,6 +55,8 @@ class MainActivity : AppCompatActivity() {
                 setupActionBarWithNavController(navController, appBarConfiguration)
                 bottomNav.setupWithNavController(navController)
             }
+
+            setDailyReminder()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -67,5 +75,28 @@ class MainActivity : AppCompatActivity() {
     private fun showBottomNavigationAndTopAppBar() {
         binding.navView.visibility = View.VISIBLE
         supportActionBar?.show()
+    }
+
+    private fun setDailyReminder() {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, ReminderReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 9)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }
+
+        if (calendar.timeInMillis < System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
+        }
+
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
     }
 }

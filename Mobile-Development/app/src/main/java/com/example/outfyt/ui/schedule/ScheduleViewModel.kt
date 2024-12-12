@@ -81,26 +81,36 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
                 val accessToken = LoginPreferences.getAccessToken(context) ?: ""
                 val googleId = LoginPreferences.getGoogleId(context)
 
+                Log.d("ScheduleViewModel", "Fetching calendar data with access token: $accessToken and googleId: $googleId")
+
                 val response: Response<CalendarResponse> = ApiConfig.api.getCalendar(
                     "Bearer $accessToken"
                 )
 
                 if (response.isSuccessful && response.body() != null) {
+                    Log.d("ScheduleViewModel", "Successfully fetched calendar data")
                     events.value = response.body()!!.events
                 } else if (response.code() == 401) {
+                    Log.d("ScheduleViewModel", "Access token expired, refreshing token")
                     refreshAccessToken(context) {
                         if (it) {
+                            Log.d("ScheduleViewModel", "Token refreshed successfully, retrying fetch")
                             fetchCalendarData()
                         } else {
+                            Log.e("ScheduleViewModel", "Failed to refresh token")
                             errorMessage.value = context.getString(R.string.failed_to_fetch_calendar_data)
                         }
                     }
                 } else {
+                    Log.e("ScheduleViewModel", "Failed to fetch calendar data: ${response.code()} - ${response.message()}")
                     errorMessage.value = context.getString(R.string.failed_to_fetch_calendar_data)
                 }
             } catch (e: Exception) {
+                Log.e("ScheduleViewModel", "Error fetching calendar data: ${e.message}")
                 errorMessage.value = "Error fetching calendar data: ${e.message}"
             }
         }
     }
+
 }
+
